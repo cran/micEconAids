@@ -1,0 +1,28 @@
+aidsBestA0              Find 'best' Value for alpha 0 in the AIDS
+aidsCalc                Shares and Quantities of the Almost Ideal
+                        Demand System
+aidsConcav              Concavity of the AIDS
+aidsConsist             Check Consistency of the AIDS
+aidsElas                Elasticities of the AIDS model
+aidsEst                 Estimating the Almost Ideal Demand System
+                        (AIDS)
+aidsMono                Monotonicity of the AIDS
+aidsPx                  Price Index for the AIDS
+aidsUtility             Indirect Utility Function of the Almost Ideal
+                        Demand System
+Blanciforti86           U.S. consumption data
+coef.aidsEst            Coefficients of an Almost Ideal Demand System
+df.residual.aidsEst     Covariance matrix of an Almost Ideal Demand
+                        System
+fitted.aidsEst          Fitted values of an Almost Ideal Demand System
+logLik.aidsEst          Log-Likelihood value of an object of class
+                        aidsEst
+lrtest.aidsEst          Likelihood Ratio test for Almost Ideal Demand
+                        Systems
+summary.aidsElas        Summarizing the Elasticities of an Almost Ideal
+                        Demand System
+summary.aidsEst         Summarizing the Estimation of an Almost Ideal
+                        Demand System
+USMeatConsump           U.S. Meat Consumption Data
+vcov.aidsEst            Covariance matrix of an Almost Ideal Demand
+                        System
