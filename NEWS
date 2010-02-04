@@ -1,0 +1,21 @@
+THIS IS THE CHANGELOG OF THE "micEconAids" PACKAGE
+
+Please note that only the most significant changes are reported here.
+A full ChangeLog is available in the log messages of the SVN repository
+on R-Forge.
+
+
+            CHANGES IN VERSION 0.6-2
+
+* aidsElas() now stops and returns an error message if the model includes
+demand shifters, because it (currently) cannot calculate elasticities
+of models with demand shifters (it does not adjust the alpha coefficients);
+the documentation of aidsElas() now mentions this limitation and gives a hint
+how the user can use aidsElas() to calculate elasticities for models with
+demand shifters anyway (the author of micEconAids is grateful to Jens
+Hainmueller who reported this bug)
+
+
+            CHANGES IN VERSION 0.6-0 AND BEFORE
+
+* please take a look at the log messages of the SVN repository on R-Forge

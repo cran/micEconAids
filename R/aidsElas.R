@@ -2,6 +2,11 @@ aidsElas <- function( coef, prices = NULL, shares = NULL, totExp = NULL,
    method = "AIDS", priceIndex = "TL", basePrices = NULL, baseShares = NULL,
    quantNames = NULL, priceNames = NULL, coefCov = NULL, df = NULL ) {
 
+   if( !is.null( coef$delta ) ) {
+      stop( "calculating demand elasticities for models with demand shifters",
+         " has not been implemented yet" )
+   }
+
    nGoods <- length( coef$alpha )
 
    coefCheckResult <- .aidsCheckCoef( coef, variables = list(

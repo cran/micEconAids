@@ -48,6 +48,15 @@
 }
 
 \details{
+   Currently, \code{aidsElas} and \code{elas.aidsEst} can calculate
+   elasticities only for models without demand shifters.
+   However, the user can calculate elasticies for models with demand shifters
+   by removing the coefficients of the demand shifters
+   (\eqn{\delta_i}{delta_i}, \code{coef$delta}),
+   adjusting the coefficients \eqn{\alpha_i}{alpha_i} (\code{coef$alpha})
+   \sQuote{by hand},
+   and then calling \code{aidsElas}.
+
    Argument \code{priceIndex} has two effects:
    first it determines the price index that is used
    for calculating (fitted) expenditure shares,
