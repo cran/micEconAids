@@ -39,7 +39,8 @@ Attaching package: 'boot'
 
 	 melanoma 
 
-Nonparametric Kernel Methods for Mixed Datatypes (version 0.30-3)
+Loading required package: cubature
+Nonparametric Kernel Methods for Mixed Datatypes (version 0.30-7)
 > data( Blanciforti86 )
 > options( digits = 3 )
 > 

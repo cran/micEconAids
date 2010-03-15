@@ -5,6 +5,13 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
+            CHANGES IN VERSION 0.6-4
+
+* added a note in the "details" section of the documentation of aidsElas
+  that explains how the adjusted alpha_i coefficients can be calculated
+  if the model was estimated with demand shifters
+
+
             CHANGES IN VERSION 0.6-2
 
 * aidsElas() now stops and returns an error message if the model includes

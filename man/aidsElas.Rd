@@ -52,10 +52,25 @@
    elasticities only for models without demand shifters.
    However, the user can calculate elasticies for models with demand shifters
    by removing the coefficients of the demand shifters
-   (\eqn{\delta_i}{delta_i}, \code{coef$delta}),
+   (\eqn{\delta_{ij}}{delta_ij}, \code{coef$delta}),
    adjusting the coefficients \eqn{\alpha_i}{alpha_i} (\code{coef$alpha})
    \sQuote{by hand},
    and then calling \code{aidsElas}.
+   The \eqn{\alpha_i}{alpha_i} coefficients should be adjusted by
+      \deqn{\alpha_i^* = \alpha_i + \sum_{j=1}^m \delta_{ij} z_j
+         \; \forall \; i=1,\ldots,n,}{
+      alpha_i^* = alpha_i + sum(j=1 to m) delta_ij z_j for all i=1,...,n,}
+   where \eqn{\alpha_i^*}{alpha_i^*} are the adjusted
+   \eqn{\alpha_i}{alpha_i} coefficients,
+   \eqn{n} is the number of goods,
+   \eqn{m} is the number of demand shifters,
+   \eqn{\delta_{ij}}{delta_ij} are the coefficients of the demand shifters, and
+   \eqn{z_j} is the \eqn{j}'s demand shifter.
+   Hence, the adjusted coefficients \eqn{\alpha_i^*}{alpha_i^*} depend
+   on the values of the demand shifters \eqn{z};
+   you could, e.g., calculate different sets of elasticities
+   for different values of \eqn{z}
+   or you could use the means, medians, or modal values of \eqn{z}.
 
    Argument \code{priceIndex} has two effects:
    first it determines the price index that is used
