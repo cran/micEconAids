@@ -1,7 +1,8 @@
 
-R version 2.10.1 (2009-12-14)
-Copyright (C) 2009 The R Foundation for Statistical Computing
+R version 2.14.0 (2011-10-31)
+Copyright (C) 2011 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: i686-pc-linux-gnu (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -19,9 +20,27 @@ Type 'q()' to quit R.
 Loading required package: systemfit
 Loading required package: Matrix
 Loading required package: lattice
+
+Attaching package: 'Matrix'
+
+The following object(s) are masked from 'package:base':
+
+    det
+
 Loading required package: car
+Loading required package: MASS
+Loading required package: nnet
+Loading required package: survival
+Loading required package: splines
 Loading required package: lmtest
 Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following object(s) are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
 Loading required package: miscTools
 Loading required package: micEcon
 Loading required package: np
@@ -29,18 +48,20 @@ Loading required package: boot
 
 Attaching package: 'boot'
 
+The following object(s) are masked from 'package:car':
 
-	The following object(s) are masked from package:car :
+    logit
 
-	 logit 
+The following object(s) are masked from 'package:survival':
 
+    aml
 
-	The following object(s) are masked from package:lattice :
+The following object(s) are masked from 'package:lattice':
 
-	 melanoma 
+    melanoma
 
 Loading required package: cubature
-Nonparametric Kernel Methods for Mixed Datatypes (version 0.30-7)
+Nonparametric Kernel Methods for Mixed Datatypes (version 0.40-11)
 > data( Blanciforti86 )
 > options( digits = 3 )
 > 
@@ -1714,11 +1735,11 @@ wFood1 wFood2 wFood3 wFood4
  1.459  0.977  0.502  0.799 
 
 Marshallian (uncompensated) Price Elasticities
-       pFood1 pFood2  pFood3  pFood4
-wFood1 -0.792 -0.245 -0.2388 -0.0808
-wFood2 -0.621 -0.233  0.1409 -0.2082
-wFood3  0.152 -0.067 -0.7011  0.1127
-wFood4  0.113 -0.195  0.0163 -0.8533
+       pFood1  pFood2  pFood3  pFood4
+wFood1 -0.792 -0.2453 -0.2388 -0.0808
+wFood2 -0.621 -0.2333  0.1409 -0.2082
+wFood3  0.152 -0.0669 -0.7011  0.1127
+wFood4  0.113 -0.1953  0.0163 -0.8533
 
 Hicksian (compensated) Price Elasticities
        pFood1  pFood2  pFood3 pFood4
@@ -1817,11 +1838,11 @@ wFood1 wFood2 wFood3 wFood4
  1.459  0.977  0.502  0.799 
 
 Marshallian (uncompensated) Price Elasticities
-       pFood1 pFood2  pFood3  pFood4
-wFood1 -0.792 -0.245 -0.2388 -0.0808
-wFood2 -0.621 -0.233  0.1409 -0.2082
-wFood3  0.152 -0.067 -0.7011  0.1127
-wFood4  0.113 -0.195  0.0163 -0.8533
+       pFood1  pFood2  pFood3  pFood4
+wFood1 -0.792 -0.2453 -0.2388 -0.0808
+wFood2 -0.621 -0.2333  0.1409 -0.2082
+wFood3  0.152 -0.0669 -0.7011  0.1127
+wFood4  0.113 -0.1953  0.0163 -0.8533
 
 Hicksian (compensated) Price Elasticities
        pFood1  pFood2  pFood3 pFood4
@@ -3134,11 +3155,11 @@ q_wFood1 q_wFood2 q_wFood3 q_wFood4
    2.045    1.245    0.399    0.157 
 
 Marshallian (uncompensated) Price Elasticities
-         pFood1  pFood2 pFood3 pFood4
-q_wFood1  0.947 -0.3731 -0.655 -1.964
-q_wFood2 -0.326 -0.1962 -0.123 -0.600
-q_wFood3 -1.019 -0.0150 -0.547  1.183
-q_wFood4 -1.157 -0.1256  0.481  0.644
+         pFood1 pFood2 pFood3 pFood4
+q_wFood1  0.947 -0.373 -0.655 -1.964
+q_wFood2 -0.326 -0.196 -0.123 -0.600
+q_wFood3 -1.019 -0.015 -0.547  1.183
+q_wFood4 -1.157 -0.126  0.481  0.644
 
 Hicksian (compensated) Price Elasticities
           pFood1  pFood2  pFood3 pFood4
@@ -3696,11 +3717,11 @@ q_wFood1 q_wFood2 q_wFood3 q_wFood4
    2.049    1.275    0.440    0.114 
 
 Marshallian (uncompensated) Price Elasticities
-         pFood1  pFood2   pFood3   pFood4
-q_wFood1 -0.647 -0.4422 -0.03793  0.12685
-q_wFood2 -0.681 -0.2222 -0.01709 -0.07973
-q_wFood3 -0.089 -0.0260 -0.89069  0.00576
-q_wFood4  0.114 -0.0463  0.00220 -1.06940
+         pFood1  pFood2  pFood3   pFood4
+q_wFood1 -0.647 -0.4422 -0.0379  0.12685
+q_wFood2 -0.681 -0.2222 -0.0171 -0.07973
+q_wFood3 -0.089 -0.0260 -0.8907  0.00576
+q_wFood4  0.114 -0.0463  0.0022 -1.06940
 
 Hicksian (compensated) Price Elasticities
            pFood1  pFood2  pFood3 pFood4
@@ -3819,11 +3840,11 @@ q_wFood3  0.0886  0.0858 -0.8149  0.206
 q_wFood4  0.3891  0.1292  0.1216 -0.754
 
 Hicksian (compensated) Price Elasticities
-         pFood1   pFood2 pFood3 pFood4
-q_wFood1 -0.336 -0.24283  0.095  0.484
-q_wFood2 -0.382 -0.00918  0.117  0.274
-q_wFood3  0.223  0.17280 -0.757  0.361
-q_wFood4  0.425  0.15215  0.137 -0.714
+         pFood1   pFood2  pFood3 pFood4
+q_wFood1 -0.336 -0.24283  0.0951  0.484
+q_wFood2 -0.382 -0.00918  0.1166  0.274
+q_wFood3  0.223  0.17280 -0.7567  0.361
+q_wFood4  0.425  0.15215  0.1369 -0.714
 > 
 > cat( "\nLA: Elasticity formula of Buse\n" )
 
@@ -3845,11 +3866,11 @@ q_wFood3  0.0886  0.0858 -0.8149  0.206
 q_wFood4  0.3891  0.1292  0.1216 -0.754
 
 Hicksian (compensated) Price Elasticities
-         pFood1   pFood2 pFood3 pFood4
-q_wFood1 -0.336 -0.24283  0.095  0.484
-q_wFood2 -0.382 -0.00918  0.117  0.274
-q_wFood3  0.223  0.17280 -0.757  0.361
-q_wFood4  0.425  0.15215  0.137 -0.714
+         pFood1   pFood2  pFood3 pFood4
+q_wFood1 -0.336 -0.24283  0.0951  0.484
+q_wFood2 -0.382 -0.00918  0.1166  0.274
+q_wFood3  0.223  0.17280 -0.7567  0.361
+q_wFood4  0.425  0.15215  0.1369 -0.714
 > 
 > elas( estResultLaS, method = "B1" )
 
@@ -3866,11 +3887,11 @@ q_wFood3  0.102  0.146 -0.8264  0.177
 q_wFood4  0.410  0.116  0.1039 -0.759
 
 Hicksian (compensated) Price Elasticities
-         pFood1  pFood2 pFood3 pFood4
-q_wFood1 -0.357 -0.2418  0.096  0.503
-q_wFood2 -0.379 -0.0221  0.150  0.250
-q_wFood3  0.228  0.2270 -0.773  0.318
-q_wFood4  0.450  0.1419  0.121 -0.713
+         pFood1  pFood2  pFood3 pFood4
+q_wFood1 -0.357 -0.2418  0.0961  0.503
+q_wFood2 -0.379 -0.0221  0.1505  0.250
+q_wFood3  0.228  0.2270 -0.7728  0.318
+q_wFood4  0.450  0.1419  0.1212 -0.713
 > 
 > elas( estResultLaSl, method = "B1" )
 
@@ -3977,11 +3998,11 @@ q_wFood3  0.107  0.153 -0.8233  0.173
 q_wFood4  0.421  0.110  0.0948 -0.771
 
 Hicksian (compensated) Price Elasticities
-         pFood1  pFood2  pFood3 pFood4
-q_wFood1 -0.367 -0.2485  0.0997  0.515
-q_wFood2 -0.394 -0.0120  0.1561  0.250
-q_wFood3  0.229  0.2324 -0.7712  0.310
-q_wFood4  0.467  0.1397  0.1142 -0.720
+         pFood1 pFood2  pFood3 pFood4
+q_wFood1 -0.367 -0.249  0.0997  0.515
+q_wFood2 -0.394 -0.012  0.1561  0.250
+q_wFood3  0.229  0.232 -0.7712  0.310
+q_wFood4  0.467  0.140  0.1142 -0.720
 > 
 > cat( "\nLA: Elasticity formula of Buse (alternative formula)\n" )
 
@@ -4003,11 +4024,11 @@ q_wFood3  0.0838  0.085 -0.8139  0.211
 q_wFood4  0.3817  0.128  0.1232 -0.747
 
 Hicksian (compensated) Price Elasticities
-         pFood1  pFood2 pFood3 pFood4
-q_wFood1 -0.327 -0.2414  0.093  0.476
-q_wFood2 -0.379 -0.0088  0.116  0.272
-q_wFood3  0.219  0.1720 -0.756  0.365
-q_wFood4  0.417  0.1510  0.139 -0.707
+         pFood1   pFood2  pFood3 pFood4
+q_wFood1 -0.327 -0.24140  0.0931  0.476
+q_wFood2 -0.379 -0.00881  0.1160  0.272
+q_wFood3  0.219  0.17205 -0.7556  0.365
+q_wFood4  0.417  0.15097  0.1386 -0.707
 > 
 > elas( estResultLaS, method = "B2" )
 
@@ -4128,11 +4149,11 @@ q_wFood1 q_wFood2 q_wFood3 q_wFood4
    2.060    1.248    0.390    0.145 
 
 Marshallian (uncompensated) Price Elasticities
-          pFood1 pFood2  pFood3 pFood4
-q_wFood1 -0.9833 -0.662 -0.1820 -0.234
-q_wFood2 -0.7780 -0.264 -0.0120 -0.195
-q_wFood3  0.0913  0.151 -0.8194  0.187
-q_wFood4  0.3988  0.107  0.1003 -0.751
+          pFood1 pFood2 pFood3 pFood4
+q_wFood1 -0.9833 -0.662 -0.182 -0.234
+q_wFood2 -0.7780 -0.264 -0.012 -0.195
+q_wFood3  0.0913  0.151 -0.819  0.187
+q_wFood4  0.3988  0.107  0.100 -0.751
 
 Hicksian (compensated) Price Elasticities
          pFood1 pFood2  pFood3 pFood4
@@ -4262,11 +4283,11 @@ q_wFood3  0.102  0.146 -0.8264  0.177
 q_wFood4  0.410  0.116  0.1039 -0.759
 
 Hicksian (compensated) Price Elasticities
-         pFood1  pFood2 pFood3 pFood4
-q_wFood1 -0.357 -0.2418  0.096  0.503
-q_wFood2 -0.379 -0.0221  0.150  0.250
-q_wFood3  0.228  0.2270 -0.773  0.318
-q_wFood4  0.450  0.1419  0.121 -0.713
+         pFood1  pFood2  pFood3 pFood4
+q_wFood1 -0.357 -0.2418  0.0961  0.503
+q_wFood2 -0.379 -0.0221  0.1505  0.250
+q_wFood3  0.228  0.2270 -0.7728  0.318
+q_wFood4  0.450  0.1419  0.1212 -0.713
 > 
 > 
 > ############# Price indices ##############
@@ -7271,11 +7292,11 @@ wFood3  0.0333  0.023119 -0.1045  0.0481
 wFood4  0.1633  0.058892  0.0481 -0.2702
 
 $cMatrices[[10]]
-        pFood1  pFood2  pFood3  pFood4
-wFood1 -0.1141 -0.0791  0.0327  0.1605
-wFood2 -0.0791 -0.0089  0.0251  0.0629
-wFood3  0.0327  0.0251 -0.1042  0.0464
-wFood4  0.1605  0.0629  0.0464 -0.2698
+        pFood1   pFood2  pFood3  pFood4
+wFood1 -0.1141 -0.07908  0.0327  0.1605
+wFood2 -0.0791 -0.00891  0.0251  0.0629
+wFood3  0.0327  0.02507 -0.1042  0.0464
+wFood4  0.1605  0.06291  0.0464 -0.2698
 
 $cMatrices[[11]]
         pFood1   pFood2  pFood3  pFood4
@@ -7292,11 +7313,11 @@ wFood3  0.0311  0.022789 -0.1041  0.0503
 wFood4  0.1569  0.058842  0.0503 -0.2660
 
 $cMatrices[[13]]
-        pFood1   pFood2  pFood3  pFood4
-wFood1 -0.1078 -0.07887  0.0313  0.1553
-wFood2 -0.0789 -0.00260  0.0231  0.0584
-wFood3  0.0313  0.02310 -0.1030  0.0486
-wFood4  0.1553  0.05838  0.0486 -0.2622
+        pFood1  pFood2  pFood3  pFood4
+wFood1 -0.1078 -0.0789  0.0313  0.1553
+wFood2 -0.0789 -0.0026  0.0231  0.0584
+wFood3  0.0313  0.0231 -0.1030  0.0486
+wFood4  0.1553  0.0584  0.0486 -0.2622
 
 $cMatrices[[14]]
         pFood1  pFood2  pFood3  pFood4
@@ -7327,11 +7348,11 @@ wFood3  0.0307  0.0250 -0.1022  0.0466
 wFood4  0.1515  0.0617  0.0466 -0.2597
 
 $cMatrices[[18]]
-        pFood1  pFood2  pFood3  pFood4
-wFood1 -0.1072 -0.0740  0.0305  0.1507
-wFood2 -0.0740 -0.0160  0.0260  0.0640
-wFood3  0.0305  0.0260 -0.1021  0.0456
-wFood4  0.1507  0.0640  0.0456 -0.2603
+        pFood1 pFood2  pFood3  pFood4
+wFood1 -0.1072 -0.074  0.0305  0.1507
+wFood2 -0.0740 -0.016  0.0260  0.0640
+wFood3  0.0305  0.026 -0.1021  0.0456
+wFood4  0.1507  0.064  0.0456 -0.2603
 
 $cMatrices[[19]]
         pFood1  pFood2  pFood3  pFood4
@@ -7535,11 +7556,11 @@ wFood3  0.0333  0.0241 -0.1054  0.0480
 wFood4  0.1609  0.0598  0.0480 -0.2688
 
 $cMatrices[[12]]
-        pFood1   pFood2  pFood3  pFood4
-wFood1 -0.1107 -0.07789  0.0322  0.1565
-wFood2 -0.0779 -0.00310  0.0232  0.0578
-wFood3  0.0322  0.02322 -0.1029  0.0475
-wFood4  0.1565  0.05778  0.0475 -0.2618
+        pFood1  pFood2  pFood3  pFood4
+wFood1 -0.1107 -0.0779  0.0322  0.1565
+wFood2 -0.0779 -0.0031  0.0232  0.0578
+wFood3  0.0322  0.0232 -0.1029  0.0475
+wFood4  0.1565  0.0578  0.0475 -0.2618
 
 $cMatrices[[13]]
         pFood1   pFood2  pFood3  pFood4
@@ -7577,11 +7598,11 @@ wFood3  0.0303  0.02448 -0.1022  0.0476
 wFood4  0.1526  0.06204  0.0476 -0.2619
 
 $cMatrices[[18]]
-       pFood1  pFood2  pFood3  pFood4
-wFood1 -0.107 -0.0761  0.0310  0.1519
-wFood2 -0.076 -0.0125  0.0257  0.0629
-wFood3  0.031  0.0257 -0.1037  0.0471
-wFood4  0.152  0.0629  0.0471 -0.2618
+        pFood1  pFood2  pFood3  pFood4
+wFood1 -0.1068 -0.0761  0.0310  0.1519
+wFood2 -0.0761 -0.0125  0.0257  0.0629
+wFood3  0.0310  0.0257 -0.1037  0.0471
+wFood4  0.1519  0.0629  0.0471 -0.2618
 
 $cMatrices[[19]]
         pFood1  pFood2  pFood3  pFood4
@@ -8075,11 +8096,11 @@ wFood3  0.0333  0.0241 -0.1054  0.0480
 wFood4  0.1609  0.0598  0.0480 -0.2688
 
 $concav$cMatrices[[12]]
-        pFood1   pFood2  pFood3  pFood4
-wFood1 -0.1107 -0.07789  0.0322  0.1565
-wFood2 -0.0779 -0.00310  0.0232  0.0578
-wFood3  0.0322  0.02322 -0.1029  0.0475
-wFood4  0.1565  0.05778  0.0475 -0.2618
+        pFood1  pFood2  pFood3  pFood4
+wFood1 -0.1107 -0.0779  0.0322  0.1565
+wFood2 -0.0779 -0.0031  0.0232  0.0578
+wFood3  0.0322  0.0232 -0.1029  0.0475
+wFood4  0.1565  0.0578  0.0475 -0.2618
 
 $concav$cMatrices[[13]]
         pFood1   pFood2  pFood3  pFood4
@@ -8117,11 +8138,11 @@ wFood3  0.0303  0.02448 -0.1022  0.0476
 wFood4  0.1526  0.06204  0.0476 -0.2619
 
 $concav$cMatrices[[18]]
-       pFood1  pFood2  pFood3  pFood4
-wFood1 -0.107 -0.0761  0.0310  0.1519
-wFood2 -0.076 -0.0125  0.0257  0.0629
-wFood3  0.031  0.0257 -0.1037  0.0471
-wFood4  0.152  0.0629  0.0471 -0.2618
+        pFood1  pFood2  pFood3  pFood4
+wFood1 -0.1068 -0.0761  0.0310  0.1519
+wFood2 -0.0761 -0.0125  0.0257  0.0629
+wFood3  0.0310  0.0257 -0.1037  0.0471
+wFood4  0.1519  0.0629  0.0471 -0.2618
 
 $concav$cMatrices[[19]]
         pFood1  pFood2  pFood3  pFood4
@@ -8348,11 +8369,11 @@ wFood3  0.0333  0.023119 -0.1045  0.0481
 wFood4  0.1633  0.058892  0.0481 -0.2702
 
 $concav$cMatrices[[10]]
-        pFood1  pFood2  pFood3  pFood4
-wFood1 -0.1141 -0.0791  0.0327  0.1605
-wFood2 -0.0791 -0.0089  0.0251  0.0629
-wFood3  0.0327  0.0251 -0.1042  0.0464
-wFood4  0.1605  0.0629  0.0464 -0.2698
+        pFood1   pFood2  pFood3  pFood4
+wFood1 -0.1141 -0.07908  0.0327  0.1605
+wFood2 -0.0791 -0.00891  0.0251  0.0629
+wFood3  0.0327  0.02507 -0.1042  0.0464
+wFood4  0.1605  0.06291  0.0464 -0.2698
 
 $concav$cMatrices[[11]]
         pFood1   pFood2  pFood3  pFood4
@@ -8369,11 +8390,11 @@ wFood3  0.0311  0.022789 -0.1041  0.0503
 wFood4  0.1569  0.058842  0.0503 -0.2660
 
 $concav$cMatrices[[13]]
-        pFood1   pFood2  pFood3  pFood4
-wFood1 -0.1078 -0.07887  0.0313  0.1553
-wFood2 -0.0789 -0.00260  0.0231  0.0584
-wFood3  0.0313  0.02310 -0.1030  0.0486
-wFood4  0.1553  0.05838  0.0486 -0.2622
+        pFood1  pFood2  pFood3  pFood4
+wFood1 -0.1078 -0.0789  0.0313  0.1553
+wFood2 -0.0789 -0.0026  0.0231  0.0584
+wFood3  0.0313  0.0231 -0.1030  0.0486
+wFood4  0.1553  0.0584  0.0486 -0.2622
 
 $concav$cMatrices[[14]]
         pFood1  pFood2  pFood3  pFood4
@@ -8404,11 +8425,11 @@ wFood3  0.0307  0.0250 -0.1022  0.0466
 wFood4  0.1515  0.0617  0.0466 -0.2597
 
 $concav$cMatrices[[18]]
-        pFood1  pFood2  pFood3  pFood4
-wFood1 -0.1072 -0.0740  0.0305  0.1507
-wFood2 -0.0740 -0.0160  0.0260  0.0640
-wFood3  0.0305  0.0260 -0.1021  0.0456
-wFood4  0.1507  0.0640  0.0456 -0.2603
+        pFood1 pFood2  pFood3  pFood4
+wFood1 -0.1072 -0.074  0.0305  0.1507
+wFood2 -0.0740 -0.016  0.0260  0.0640
+wFood3  0.0305  0.026 -0.1021  0.0456
+wFood4  0.1507  0.064  0.0456 -0.2603
 
 $concav$cMatrices[[19]]
         pFood1  pFood2  pFood3  pFood4
@@ -8975,8 +8996,8 @@ Model 4: estResultAIDSunr (AIDS, unrestricted)
   #Df LogLik Df Chisq Pr(>Chisq)    
 1  24    365                        
 2  21    354 -3 22.55      5e-05 ***
-3  18    352 -3  3.65    0.30138    
-4  24    365  6 26.20    0.00020 ***
+3  18    352 -3  3.65      3e-01    
+4  24    365  6 26.20      2e-04 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 > lrtest( estResultAIDSunrTX, estResultAIDShomTX, estResultAIDSTX,
@@ -8990,8 +9011,8 @@ Model 4: estResultAIDSunrTX (AIDS, unrestricted)
   #Df LogLik Df Chisq Pr(>Chisq)    
 1  24    365                        
 2  21    354 -3 22.55      5e-05 ***
-3  18    352 -3  3.65    0.30138    
-4  24    365  6 26.20    0.00020 ***
+3  18    352 -3  3.65      3e-01    
+4  24    365  6 26.20      2e-04 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 > 

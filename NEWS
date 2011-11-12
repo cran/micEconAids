@@ -5,6 +5,11 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
+            CHANGES IN VERSION 0.6-6 (2011-11-12)
+
+* fixed partial argument matching in aidsElas()
+
+
             CHANGES IN VERSION 0.6-4
 
 * added a note in the "details" section of the documentation of aidsElas

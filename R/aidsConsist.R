@@ -4,15 +4,17 @@ aidsConsist <- function( priceNames, totExpName, coef, data,
 
    result <- list()
 
+   nGoods <- length( coef$alpha )
+
    result$addingUp <- all(
       all.equal( sum( coef$alpha ), 1 ) == TRUE,
       all.equal( sum( coef$beta ), 0 ) == TRUE,
-      all.equal( colSums( coef$gamma ), rep( 0, 4 ),
+      all.equal( colSums( coef$gamma ), rep( 0, nGoods ),
          check.attributes = FALSE ) == TRUE
       )
 
    result$homogeneity <- all.equal( rowSums( coef$gamma ),
-      rep( 0, 4 ), check.attributes = FALSE ) == TRUE
+      rep( 0, nGoods ), check.attributes = FALSE ) == TRUE
 
    result$symmetry <- isSymmetric( coef$gamma, tol = 1e-10,
       check.attributes = FALSE ) == TRUE
