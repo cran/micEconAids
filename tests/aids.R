@@ -17,36 +17,42 @@ estResultTl <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86[ set, ], method = "IL" )
 print( estResultTl )
 print( summary( estResultTl ) )
+nobs( estResultTl )
 
 # LA-AIDS: Stone
 estResultLaS <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86[ set, ], priceIndex = "S" )
 print( estResultLaS )
 print( summary( estResultLaS ) )
+nobs( estResultLaS )
 
 # LA-AIDS: Stone with lagged shares
 estResultLaSl <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86[ set, ], priceIndex = "SL" )
 print( estResultLaSl )
 print( summary( estResultLaSl ) )
+nobs( estResultLaSl )
 
 # LA-AIDS: Paasche
 estResultLaP <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86[ set, ], priceIndex = "P" )
 print( estResultLaP )
 print( summary( estResultLaP ) )
+nobs( estResultLaP )
 
 # LA-AIDS: Laspeyres
 estResultLaL <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86[ set, ], priceIndex = "L" )
 print( estResultLaL )
 print( summary( estResultLaL ) )
+nobs( estResultLaL )
 
 # LA-AIDS: Laspeyres, simplified
 estResultLaLs <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86[ set, ], priceIndex = "Ls" )
 print( estResultLaLs )
 print( summary( estResultLaLs ) )
+nobs( estResultLaLs )
 all.equal( estResultLaL$coef$beta, estResultLaLs$coef$beta )
 all.equal( estResultLaL$coef$gamma, estResultLaLs$coef$gamma )
 
@@ -55,6 +61,7 @@ estResultLaT <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86[ set, ], priceIndex = "T" )
 print( estResultLaT )
 print( summary( estResultLaT ) )
+nobs( estResultLaT )
 
 
 cat( paste( "\nRepeating the demand analysis of Blanciforti, Green",
@@ -62,6 +69,7 @@ cat( paste( "\nRepeating the demand analysis of Blanciforti, Green",
 estResultLA <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86[ set, ], priceIndex = "SL" )
 print( estResultLA )
+nobs( estResultLA )
 print( summary( estResultLA ) )
 print( elas( estResultLA, method = "Ch", quantNames = wNames,
    observedShares = TRUE ) )
@@ -71,6 +79,7 @@ estResultLATX <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86[ set, ], priceIndex = "SL",
    restrict.regMat = TRUE )
 print( estResultLATX )
+nobs( estResultLATX )
 print( summary( estResultLATX ) )
 print( elas( estResultLATX, method = "Ch", quantNames = wNames,
    observedShares = TRUE ) )
@@ -80,6 +89,7 @@ print( elas( estResultLATX, method = "Ch", quantNames = wNames ) )
 estResultLAhom <- aidsEst( pNames, wNames, "xFood", sym = FALSE,
    data = Blanciforti86[ set, ], priceIndex = "SL" )
 print( estResultLAhom )
+nobs( estResultLAhom )
 print( summary( estResultLAhom ) )
 print( elas( estResultLAhom, method = "Ch", quantNames = wNames,
    observedShares = TRUE ) )
@@ -89,6 +99,7 @@ estResultLAhomTX <- aidsEst( pNames, wNames, "xFood", sym = FALSE,
    data = Blanciforti86[ set, ], priceIndex = "SL",
    restrict.regMat = TRUE )
 print( estResultLAhomTX )
+nobs( estResultLAhomTX )
 print( summary( estResultLAhomTX ) )
 print( elas( estResultLAhomTX, method = "Ch", quantNames = wNames,
    observedShares = TRUE ) )
@@ -98,6 +109,7 @@ print( elas( estResultLAhomTX, method = "Ch", quantNames = wNames ) )
 estResultLAunr <- aidsEst( pNames, wNames, "xFood", hom = FALSE, sym = FALSE,
    data = Blanciforti86[ set, ], priceIndex = "SL" )
 print( estResultLAunr )
+nobs( estResultLAunr )
 print( summary( estResultLAunr ) )
 print( elas( estResultLAunr, method = "Ch", quantNames = wNames,
    observedShares = TRUE ) )
@@ -107,6 +119,7 @@ estResultLAunrTX <- aidsEst( pNames, wNames, "xFood", hom = FALSE, sym = FALSE,
    data = Blanciforti86[ set, ], priceIndex = "SL",
    restrict.regMat = TRUE )
 print( estResultLAunrTX )
+nobs( estResultLAunrTX )
 print( summary( estResultLAunrTX ) )
 print( elas( estResultLAunrTX, method = "Ch", quantNames = wNames,
    observedShares = TRUE ) )
@@ -119,12 +132,14 @@ Blanciforti86$trend <- c( 0:( nrow( Blanciforti86 ) - 1 ) )
 estResultLAtrend <- aidsEst( pNames, wNames, "xFood",
    shifterNames = c( "trend" ), data = Blanciforti86[ set, ] )
 print( estResultLAtrend )
+nobs( estResultLAtrend )
 summary( estResultLAtrend )
 
 Blanciforti86$trend2 <- c( 0:( nrow( Blanciforti86 ) - 1 ) )^2
 estResultLAtrend2 <- aidsEst( pNames, wNames, "xFood",
    shifterNames = c( "trend", "trend2" ), data = Blanciforti86[ set, ] )
 print( estResultLAtrend2 )
+nobs( estResultLAtrend2 )
 summary( estResultLAtrend2 )
 
 
@@ -134,6 +149,7 @@ cat( paste( "\nRepeating the evaluation of different elasticity formulas",
 estResultAIDS <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86[ setWo1, ], method = "IL" )
 print( estResultAIDS )
+nobs( estResultAIDS )
 print( summary( estResultAIDS ) )
 print( elas( estResultAIDS, method = "AIDS", quantNames = wNames,
    observedShares = TRUE ) )
@@ -142,6 +158,7 @@ print( elas( estResultAIDS, method = "AIDS", quantNames = wNames ) )
 estResultAIDSTX <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86[ setWo1, ], method = "IL", restrict.regMat = TRUE )
 print( estResultAIDSTX )
+nobs( estResultAIDSTX )
 print( summary( estResultAIDSTX ) )
 print( elas( estResultAIDSTX, method = "AIDS", quantNames = wNames,
    observedShares = TRUE ) )
@@ -151,6 +168,7 @@ print( elas( estResultAIDSTX, method = "AIDS", quantNames = wNames ) )
 estResultAIDShom <- aidsEst( pNames, wNames, "xFood", sym = FALSE,
    data = Blanciforti86[ setWo1, ], method = "IL" )
 print( estResultAIDShom )
+nobs( estResultAIDShom )
 print( summary( estResultAIDShom ) )
 print( elas( estResultAIDShom, method = "AIDS", quantNames = wNames,
    observedShares = TRUE ) )
@@ -159,6 +177,7 @@ print( elas( estResultAIDShom, method = "AIDS", quantNames = wNames ) )
 estResultAIDShomTX <- aidsEst( pNames, wNames, "xFood", sym = FALSE,
    data = Blanciforti86[ setWo1, ], method = "IL", restrict.regMat = TRUE )
 print( estResultAIDShomTX )
+nobs( estResultAIDShomTX )
 print( summary( estResultAIDShomTX ) )
 print( elas( estResultAIDShomTX, method = "AIDS", quantNames = wNames,
    observedShares = TRUE ) )
@@ -168,6 +187,7 @@ print( elas( estResultAIDShomTX, method = "AIDS", quantNames = wNames ) )
 estResultAIDSunr <- aidsEst( pNames, wNames, "xFood", hom = FALSE, sym = FALSE,
    data = Blanciforti86[ setWo1, ], method = "IL" )
 print( estResultAIDSunr )
+nobs( estResultAIDSunr )
 print( summary( estResultAIDSunr ) )
 print( elas( estResultAIDSunr, method = "AIDS", quantNames = wNames,
    observedShares = TRUE ) )
@@ -176,6 +196,7 @@ print( elas( estResultAIDSunr, method = "AIDS", quantNames = wNames ) )
 estResultAIDSunrTX <- aidsEst( pNames, wNames, "xFood", hom = FALSE, sym = FALSE,
    data = Blanciforti86[ setWo1, ], method = "IL", restrict.regMat = TRUE )
 print( estResultAIDSunrTX )
+nobs( estResultAIDSunrTX )
 print( summary( estResultAIDSunrTX ) )
 print( elas( estResultAIDSunrTX, method = "AIDS", quantNames = wNames,
    observedShares = TRUE ) )
@@ -186,6 +207,7 @@ estResultLaSNa <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86,
    priceIndex = "S" )
 print( estResultLaSNa )
+nobs( estResultLaSNa )
 print( summary( estResultLaSNa ) )
 print( elas( estResultLaSNa, method = "AIDS", quantNames = wNames,
    observedShares = TRUE ) )
@@ -195,6 +217,7 @@ estResultLaSlNa <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86,
    priceIndex = "SL" )
 print( estResultLaSlNa )
+nobs( estResultLaSlNa )
 print( summary( estResultLaSlNa ) )
 print( elas( estResultLaSlNa, method = "AIDS", quantNames = wNames,
    observedShares = TRUE ) )
@@ -203,6 +226,7 @@ print( elas( estResultLaSlNa, method = "AIDS", quantNames = wNames ) )
 estResultLaLsNa <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86 )
 print( estResultLaLsNa )
+nobs( estResultLaLsNa )
 print( summary( estResultLaLsNa ) )
 print( elas( estResultLaLsNa, method = "AIDS", quantNames = wNames,
    observedShares = TRUE ) )
@@ -211,6 +235,7 @@ print( elas( estResultLaLsNa, method = "AIDS", quantNames = wNames ) )
 estResultAIDSNa <- aidsEst( pNames, wNames, "xFood",
    data = Blanciforti86, method = "IL" )
 print( estResultAIDSNa )
+nobs( estResultAIDSNa )
 print( summary( estResultAIDSNa ) )
 print( elas( estResultAIDSNa, method = "AIDS", quantNames = wNames,
    observedShares = TRUE ) )
@@ -944,7 +969,7 @@ logLik( meatModel )
 ## LR tests
 lrtest( estResultLA, estResultLAhom, estResultLAunr, estResultLA )
 lrtest( estResultLATX, estResultLAhomTX, estResultLAunrTX, estResultLATX )
-lrtest( estResultLA, estResultLAtrend, estResultLAtrend2, estResultLA )
+lrtest( estResultLaLs, estResultLAtrend, estResultLAtrend2, estResultLaLs )
 lrtest( estResultAIDSunr, estResultAIDShom, estResultAIDS, estResultAIDSunr )
 lrtest( estResultAIDSunrTX, estResultAIDShomTX, estResultAIDSTX,
    estResultAIDSunrTX )

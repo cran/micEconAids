@@ -1,6 +1,6 @@
-2036297702fa5b8b6f6db2530d3ace75 *DESCRIPTION
-cf1ed659957b86c66558f0ac592a2e9a *NAMESPACE
-74f5ed7e09bf89a020e653b342e24332 *NEWS
+1a53640d6fd963a38953bcb139f7357e *DESCRIPTION
+03de3fe598023346b167b0e25f9a2f82 *NAMESPACE
+f7d8c65f74b186fb3064e04b4bed0844 *NEWS
 062af0c5ee0c62e7b69692e0846e3f8a *R/aidsBestA0.R
 ae5b932fd1081261782eb691eae6255a *R/aidsCalc.R
 1cd2745d7e50d405d1342717d8447e4e *R/aidsCheckCoef.R
@@ -27,6 +27,7 @@ bc6959161938fe7b2b6fa2faf4ff1803 *R/df.residual.aidsEst.R
 4a038fb940229adee371e43d01b164be *R/fitted.aidsEst.R
 2a4454fac8d7dc0121f50ac739208096 *R/logLik.aidsEst.R
 e6a88a59e004539d114e1c67f5653439 *R/lrtest.aidsEst.R
+3f0face7f835ab1a1eb3d07880b1d9e6 *R/nobs.aidsEst.R
 9d61df5d6b2131e2f96f5996ebe5121f *R/predict.aidsEst.R
 3b707ff504f7e69e1fe2adc6215f5af3 *R/print.aidsConcav.R
 776c60d346d96d2be4232329b752da10 *R/print.aidsConsist.R
@@ -60,5 +61,5 @@ b4da9068b938b679686d5bb77135c7d4 *man/coef.aidsEst.Rd
 6c27796ac640673e529ccfa5c9323864 *man/summary.aidsElas.Rd
 69e62c1378958b370c14bc0f27921bf8 *man/summary.aidsEst.Rd
 451e628e0958f15245360ef5f8fa5723 *man/vcov.aidsEst.Rd
-9f34a7045426545130f27bfc3fb71362 *tests/aids.R
-a49dafdab89b915407ad7fabbbeec86c *tests/aids.Rout.save
+aaec52d7afe65698e6c19fb900034f01 *tests/aids.R
+218d228cc6cf9bcac8bee69fefc3663f *tests/aids.Rout.save

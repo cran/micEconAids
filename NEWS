@@ -5,6 +5,11 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
+            CHANGES IN VERSION 0.6-8 (2012-06-02)
+
+* added nobs() method for objects of class "aidsElas""
+
+
             CHANGES IN VERSION 0.6-6 (2011-11-12)
 
 * fixed partial argument matching in aidsElas()

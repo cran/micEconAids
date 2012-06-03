@@ -1,8 +1,8 @@
 
-R version 2.14.0 (2011-10-31)
-Copyright (C) 2011 The R Foundation for Statistical Computing
+R version 2.15.0 (2012-03-30)
+Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
-Platform: i686-pc-linux-gnu (32-bit)
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -20,18 +20,9 @@ Type 'q()' to quit R.
 Loading required package: systemfit
 Loading required package: Matrix
 Loading required package: lattice
-
-Attaching package: 'Matrix'
-
-The following object(s) are masked from 'package:base':
-
-    det
-
 Loading required package: car
 Loading required package: MASS
 Loading required package: nnet
-Loading required package: survival
-Loading required package: splines
 Loading required package: lmtest
 Loading required package: zoo
 
@@ -43,25 +34,6 @@ The following object(s) are masked from 'package:base':
 
 Loading required package: miscTools
 Loading required package: micEcon
-Loading required package: np
-Loading required package: boot
-
-Attaching package: 'boot'
-
-The following object(s) are masked from 'package:car':
-
-    logit
-
-The following object(s) are masked from 'package:survival':
-
-    aml
-
-The following object(s) are masked from 'package:lattice':
-
-    melanoma
-
-Loading required package: cubature
-Nonparametric Kernel Methods for Mixed Datatypes (version 0.40-11)
 > data( Blanciforti86 )
 > options( digits = 3 )
 > 
@@ -137,6 +109,8 @@ wFood1 wFood2 wFood3 wFood4
 R-squared Values of quantities:
 q_wFood1 q_wFood2 q_wFood3 q_wFood4 
    0.936    0.845    0.679    0.627 
+> nobs( estResultTl )
+[1] 96
 > 
 > # LA-AIDS: Stone
 > estResultLaS <- aidsEst( pNames, wNames, "xFood",
@@ -196,6 +170,8 @@ wFood1 wFood2 wFood3 wFood4
 R-squared Values of quantities:
 q_wFood1 q_wFood2 q_wFood3 q_wFood4 
    0.935    0.846    0.677    0.632 
+> nobs( estResultLaS )
+[1] 96
 > 
 > # LA-AIDS: Stone with lagged shares
 > estResultLaSl <- aidsEst( pNames, wNames, "xFood",
@@ -255,6 +231,8 @@ wFood1 wFood2 wFood3 wFood4
 R-squared Values of quantities:
 q_wFood1 q_wFood2 q_wFood3 q_wFood4 
    0.946    0.864    0.618    0.724 
+> nobs( estResultLaSl )
+[1] 93
 > 
 > # LA-AIDS: Paasche
 > estResultLaP <- aidsEst( pNames, wNames, "xFood",
@@ -314,6 +292,8 @@ wFood1 wFood2 wFood3 wFood4
 R-squared Values of quantities:
 q_wFood1 q_wFood2 q_wFood3 q_wFood4 
    0.936    0.844    0.676    0.623 
+> nobs( estResultLaP )
+[1] 96
 > 
 > # LA-AIDS: Laspeyres
 > estResultLaL <- aidsEst( pNames, wNames, "xFood",
@@ -373,6 +353,8 @@ wFood1 wFood2 wFood3 wFood4
 R-squared Values of quantities:
 q_wFood1 q_wFood2 q_wFood3 q_wFood4 
    0.932    0.845    0.679    0.614 
+> nobs( estResultLaL )
+[1] 96
 > 
 > # LA-AIDS: Laspeyres, simplified
 > estResultLaLs <- aidsEst( pNames, wNames, "xFood",
@@ -432,6 +414,8 @@ wFood1 wFood2 wFood3 wFood4
 R-squared Values of quantities:
 q_wFood1 q_wFood2 q_wFood3 q_wFood4 
    0.932    0.845    0.679    0.614 
+> nobs( estResultLaLs )
+[1] 96
 > all.equal( estResultLaL$coef$beta, estResultLaLs$coef$beta )
 [1] TRUE
 > all.equal( estResultLaL$coef$gamma, estResultLaLs$coef$gamma )
@@ -495,6 +479,8 @@ wFood1 wFood2 wFood3 wFood4
 R-squared Values of quantities:
 q_wFood1 q_wFood2 q_wFood3 q_wFood4 
    0.934    0.844    0.678    0.619 
+> nobs( estResultLaT )
+[1] 96
 > 
 > 
 > cat( paste( "\nRepeating the demand analysis of Blanciforti, Green",
@@ -520,6 +506,8 @@ wFood1  0.1107 -0.13851 -0.011881  0.039732
 wFood2 -0.1385  0.15820 -0.003476 -0.016216
 wFood3 -0.0119 -0.00348  0.014589  0.000768
 wFood4  0.0397 -0.01622  0.000768 -0.024285
+> nobs( estResultLA )
+[1] 93
 > print( summary( estResultLA ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -620,6 +608,8 @@ wFood1  0.1107 -0.13851 -0.011881  0.039732
 wFood2 -0.1385  0.15820 -0.003476 -0.016216
 wFood3 -0.0119 -0.00348  0.014589  0.000768
 wFood4  0.0397 -0.01622  0.000768 -0.024285
+> nobs( estResultLATX )
+[1] 93
 > print( summary( estResultLATX ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -720,6 +710,8 @@ wFood1  0.10972 -0.1210 -0.0458  0.056998
 wFood2 -0.13009  0.1244  0.0312 -0.025525
 wFood3 -0.00526 -0.0251  0.0312 -0.000772
 wFood4  0.02563  0.0217 -0.0166 -0.030701
+> nobs( estResultLAhom )
+[1] 93
 > print( summary( estResultLAhom ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -820,6 +812,8 @@ wFood1  0.10972 -0.1210 -0.0458  0.056998
 wFood2 -0.13009  0.1244  0.0312 -0.025525
 wFood3 -0.00526 -0.0251  0.0312 -0.000772
 wFood4  0.02563  0.0217 -0.0166 -0.030701
+> nobs( estResultLAhomTX )
+[1] 93
 > print( summary( estResultLAhomTX ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -920,6 +914,8 @@ wFood1  0.12013 -0.0454 -0.05451  0.01033
 wFood2 -0.12643  0.1510  0.02811 -0.04195
 wFood3 -0.00534 -0.0257  0.03122 -0.00043
 wFood4  0.01163 -0.0799 -0.00482  0.03205
+> nobs( estResultLAunr )
+[1] 93
 > print( summary( estResultLAunr ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -1020,6 +1016,8 @@ wFood1  0.12013 -0.0454 -0.05451  0.01033
 wFood2 -0.12643  0.1510  0.02811 -0.04195
 wFood3 -0.00534 -0.0257  0.03122 -0.00043
 wFood4  0.01163 -0.0799 -0.00482  0.03205
+> nobs( estResultLAunrTX )
+[1] 93
 > print( summary( estResultLAunrTX ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -1129,6 +1127,8 @@ wFood1  0.001873
 wFood2  0.001174
 wFood3 -0.000228
 wFood4 -0.002820
+> nobs( estResultLAtrend )
+[1] 96
 > summary( estResultLAtrend )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -1198,6 +1198,8 @@ wFood1  0.00103  2.60e-05
 wFood2  0.00326 -6.39e-05
 wFood3 -0.00125  2.87e-05
 wFood4 -0.00304  9.20e-06
+> nobs( estResultLAtrend2 )
+[1] 96
 > summary( estResultLAtrend2 )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -1273,6 +1275,8 @@ wFood1 -0.0779 -0.17201  0.03040  0.2195
 wFood2 -0.1720  0.15158  0.00312  0.0173
 wFood3  0.0304  0.00312  0.00573 -0.0393
 wFood4  0.2195  0.01731 -0.03926 -0.1975
+> nobs( estResultAIDS )
+[1] 93
 > print( summary( estResultAIDS ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -1376,6 +1380,8 @@ wFood1 -0.0779 -0.17201  0.03040  0.2195
 wFood2 -0.1720  0.15158  0.00312  0.0173
 wFood3  0.0304  0.00312  0.00573 -0.0393
 wFood4  0.2195  0.01731 -0.03926 -0.1975
+> nobs( estResultAIDSTX )
+[1] 93
 > print( summary( estResultAIDSTX ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -1480,6 +1486,8 @@ wFood1 -0.0837 -0.1593 -0.00509  0.2481
 wFood2 -0.1674  0.1186  0.03855  0.0103
 wFood3  0.0337 -0.0155  0.02237 -0.0406
 wFood4  0.2174  0.0562 -0.05583 -0.2178
+> nobs( estResultAIDShom )
+[1] 93
 > print( summary( estResultAIDShom ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -1583,6 +1591,8 @@ wFood1 -0.0837 -0.1593 -0.00509  0.2481
 wFood2 -0.1674  0.1186  0.03855  0.0103
 wFood3  0.0337 -0.0155  0.02237 -0.0406
 wFood4  0.2174  0.0562 -0.05583 -0.2178
+> nobs( estResultAIDShomTX )
+[1] 93
 > print( summary( estResultAIDShomTX ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -1687,6 +1697,8 @@ wFood1  0.0746 -0.0461 -0.0389  0.0422
 wFood2 -0.1253  0.1534  0.0272 -0.0440
 wFood3  0.0157 -0.0231  0.0236 -0.0164
 wFood4  0.0350 -0.0841 -0.0119  0.0182
+> nobs( estResultAIDSunr )
+[1] 93
 > print( summary( estResultAIDSunr ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -1790,6 +1802,8 @@ wFood1  0.0746 -0.0461 -0.0389  0.0422
 wFood2 -0.1253  0.1534  0.0272 -0.0440
 wFood3  0.0157 -0.0231  0.0236 -0.0164
 wFood4  0.0350 -0.0841 -0.0119  0.0182
+> nobs( estResultAIDSunrTX )
+[1] 93
 > print( summary( estResultAIDSunrTX ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -1895,6 +1909,8 @@ wFood1  0.1042 -0.13988 -0.01156  0.0473
 wFood2 -0.1399  0.15691  0.00347 -0.0205
 wFood3 -0.0116  0.00347  0.01249 -0.0044
 wFood4  0.0473 -0.02050 -0.00440 -0.0224
+> nobs( estResultLaSNa )
+[1] 96
 > print( summary( estResultLaSNa ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -1998,6 +2014,8 @@ wFood1  0.1107 -0.13851 -0.011881  0.039732
 wFood2 -0.1385  0.15820 -0.003476 -0.016216
 wFood3 -0.0119 -0.00348  0.014589  0.000768
 wFood4  0.0397 -0.01622  0.000768 -0.024285
+> nobs( estResultLaSlNa )
+[1] 93
 > print( summary( estResultLaSlNa ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -2100,6 +2118,8 @@ wFood1  0.09104 -0.14571 -0.00963  0.0643
 wFood2 -0.14571  0.15852  0.00594 -0.0188
 wFood3 -0.00963  0.00594  0.01289 -0.0092
 wFood4  0.06431 -0.01875 -0.00920 -0.0364
+> nobs( estResultLaLsNa )
+[1] 96
 > print( summary( estResultLaLsNa ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -2208,6 +2228,8 @@ wFood1 -0.0855 -0.16994  0.03469  0.22072
 wFood2 -0.1699  0.15613  0.01104  0.00277
 wFood3  0.0347  0.01104  0.00134 -0.04707
 wFood4  0.2207  0.00277 -0.04707 -0.17643
+> nobs( estResultAIDSNa )
+[1] 96
 > print( summary( estResultAIDSNa ) )
 
 Demand analysis with the Almost Ideal Demand System (AIDS)
@@ -8972,18 +8994,18 @@ Model 4: estResultLATX (LA-AIDS, symmetry and homogeneity imposed)
 4  18    353 -6  24.3    0.00046 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
-> lrtest( estResultLA, estResultLAtrend, estResultLAtrend2, estResultLA )
+> lrtest( estResultLaLs, estResultLAtrend, estResultLAtrend2, estResultLaLs )
 Likelihood ratio test
 
-Model 1: estResultLA (LA-AIDS, symmetry and homogeneity imposed)
+Model 1: estResultLaLs (LA-AIDS, symmetry and homogeneity imposed)
 Model 2: estResultLAtrend (LA-AIDS, symmetry and homogeneity imposed, 1 demand shifter(s))
 Model 3: estResultLAtrend2 (LA-AIDS, symmetry and homogeneity imposed, 2 demand shifter(s))
-Model 4: estResultLA (LA-AIDS, symmetry and homogeneity imposed)
+Model 4: estResultLaLs (LA-AIDS, symmetry and homogeneity imposed)
   #Df LogLik Df Chisq Pr(>Chisq)    
-1  18    353                        
-2  21    386  3  66.0    3.0e-14 ***
+1  18    359                        
+2  21    386  3  53.7    1.3e-11 ***
 3  24    397  3  22.4    5.4e-05 ***
-4  18    353 -6  88.4    < 2e-16 ***
+4  18    359 -6  76.1    2.3e-14 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 > lrtest( estResultAIDSunr, estResultAIDShom, estResultAIDS, estResultAIDSunr )
@@ -9078,3 +9100,6 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > print( all.equal( estResultAIDSunr, estResultAIDSunrTX ) )
 [1] TRUE
 > 
+> proc.time()
+   user  system elapsed 
+  8.992   0.096   9.093 

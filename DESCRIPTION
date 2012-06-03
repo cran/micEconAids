@@ -1,15 +1,16 @@
 Package: micEconAids
-Version: 0.6-6
-Date: 2011/11/12
+Version: 0.6-10
+Date: 2012/06/03
 Title: Demand Analysis with the Almost Ideal Demand System (AIDS)
 Author: Arne Henningsen
 Maintainer: Arne Henningsen <arne.henningsen@googlemail.com>
-Depends: R (>= 2.4.0), systemfit (>= 1.0-0), miscTools (>= 0.6-0),
+Depends: R (>= 2.4.0), systemfit (>= 1.1-12), miscTools (>= 0.6-0),
         lmtest, micEcon (>= 0.6-0)
+Imports: stats (>= 2.15.0)
 Description: Demand analysis with the Almost Ideal Demand System (AIDS)
-   suggested by Deaton and Muellbauer (1980)
+        suggested by Deaton and Muellbauer (1980)
 License: GPL (>= 2)
-URL: http://www.r-project.org, http://www.micEcon.org
-Packaged: 2011-11-12 21:49:48 UTC; suapm095
+URL: http://www.micEcon.org
+Packaged: 2012-06-02 23:48:58 UTC; arne
 Repository: CRAN
-Date/Publication: 2011-11-13 09:12:28
+Date/Publication: 2012-06-03 05:57:48
