@@ -187,6 +187,7 @@
       data = Blanciforti86[ -1, ],
       method = "IL", maxiter = 100 )
    diag( elas( estResultA, method = "AIDS" )$marshall )
+   summary( elas( estResultA, method = "AIDS" ) )
 
    # LA-AIDS estimation
    estResultLA <- aidsEst( priceNames, shareNames, "xFood",

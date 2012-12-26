@@ -5,9 +5,16 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
+            CHANGES IN VERSION 0.6-12 (2012-12-26)
+
+* corrected dependencies: replaced "R (>= 2.4.0)" and "stats (>= 2.15.0)" 
+(where the latter implies "R (>= 2.15.0)") by "R (>= 2.14.0)" and "stats" 
+(without version number), because R/stats 2.14.0 is sufficient
+
+
             CHANGES IN VERSION 0.6-8 (2012-06-02)
 
-* added nobs() method for objects of class "aidsElas""
+* added nobs() method for objects of class "aidsElas"
 
 
             CHANGES IN VERSION 0.6-6 (2011-11-12)
