@@ -5,6 +5,12 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
+            CHANGES IN VERSION 0.6-14 (2014-04-22)
+
+* 'micEconAids' no longer depends on packages 'miscTools' and 'systemfit' but
+imports these packages
+
+
             CHANGES IN VERSION 0.6-12 (2012-12-26)
 
 * corrected dependencies: replaced "R (>= 2.4.0)" and "stats (>= 2.15.0)" 

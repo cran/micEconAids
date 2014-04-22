@@ -1,7 +1,6 @@
 
-R version 2.15.0 (2012-03-30)
-Copyright (C) 2012 The R Foundation for Statistical Computing
-ISBN 3-900051-07-0
+R version 3.1.0 (2014-04-10) -- "Spring Dance"
+Copyright (C) 2014 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -19,21 +18,21 @@ Type 'q()' to quit R.
 > library( "micEconAids" )
 Loading required package: systemfit
 Loading required package: Matrix
-Loading required package: lattice
 Loading required package: car
-Loading required package: MASS
-Loading required package: nnet
 Loading required package: lmtest
 Loading required package: zoo
 
 Attaching package: 'zoo'
 
-The following object(s) are masked from 'package:base':
+The following objects are masked from 'package:base':
 
     as.Date, as.Date.numeric
 
 Loading required package: miscTools
 Loading required package: micEcon
+
+If you have questions, suggestions, or comments regarding one of the 'micEcon' packages, please use a forum or 'tracker' at micEcon's R-Forge site:
+https://r-forge.r-project.org/projects/micecon/
 > data( Blanciforti86 )
 > options( digits = 3 )
 > 
@@ -102,7 +101,7 @@ gamma 4 2  0.00277    0.04850    0.06  0.95454
 gamma 4 3 -0.04707    0.02325   -2.02  0.04609 *  
 gamma 4 4 -0.17643    0.09821   -1.80  0.07603 .  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.636  0.830  0.415  0.651 
@@ -163,7 +162,7 @@ gamma 4 2 -0.02050    0.02363   -0.87  0.38805
 gamma 4 3 -0.00440    0.01354   -0.32  0.74600    
 gamma 4 4 -0.02239    0.03829   -0.58  0.56030    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.627  0.832  0.412  0.657 
@@ -224,7 +223,7 @@ gamma 4 2 -0.016216   0.022336   -0.73  0.46995
 gamma 4 3  0.000768   0.013674    0.06  0.95533    
 gamma 4 4 -0.024285   0.032868   -0.74  0.46212    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.701  0.846  0.408  0.734 
@@ -285,7 +284,7 @@ gamma 4 2 -0.02049    0.02384   -0.86  0.39252
 gamma 4 3 -0.00530    0.01357   -0.39  0.69708    
 gamma 4 4 -0.02574    0.03866   -0.67  0.50735    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.634  0.829  0.412  0.649 
@@ -346,7 +345,7 @@ gamma 4 2 -0.01875    0.02442   -0.77  0.44476
 gamma 4 3 -0.00920    0.01379   -0.67  0.50672    
 gamma 4 4 -0.03636    0.03911   -0.93  0.35519    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.620  0.830  0.414  0.640 
@@ -407,7 +406,7 @@ gamma 4 2 -0.01875    0.02442   -0.77  0.44476
 gamma 4 3 -0.00920    0.01379   -0.67  0.50672    
 gamma 4 4 -0.03636    0.03911   -0.93  0.35519    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.620  0.830  0.414  0.640 
@@ -472,7 +471,7 @@ gamma 4 2 -0.01954    0.02409   -0.81  0.41953
 gamma 4 3 -0.00719    0.01366   -0.53  0.60007    
 gamma 4 4 -0.03123    0.03881   -0.80  0.42324    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.628  0.829  0.413  0.645 
@@ -539,7 +538,7 @@ gamma 4 2 -0.016216   0.022336   -0.73  0.46995
 gamma 4 3  0.000768   0.013674    0.06  0.95533    
 gamma 4 4 -0.024285   0.032868   -0.74  0.46212    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.701  0.846  0.408  0.734 
@@ -641,7 +640,7 @@ gamma 4 2 -0.016216   0.022336   -0.73  0.46995
 gamma 4 3  0.000768   0.013674    0.06  0.95533    
 gamma 4 4 -0.024285   0.032868   -0.74  0.46212    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.701  0.846  0.408  0.734 
@@ -743,7 +742,7 @@ gamma 4 2  0.021669   0.060450    0.36  0.72097
 gamma 4 3 -0.016600   0.052457   -0.32  0.75251    
 gamma 4 4 -0.030701   0.036948   -0.83  0.40856    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.709  0.853  0.431  0.740 
@@ -845,7 +844,7 @@ gamma 4 2  0.021669   0.060450    0.36  0.72097
 gamma 4 3 -0.016600   0.052457   -0.32  0.75251    
 gamma 4 4 -0.030701   0.036948   -0.83  0.40856    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.709  0.853  0.431  0.740 
@@ -947,7 +946,7 @@ gamma 4 2 -0.079919   0.051673   -1.55  0.12617
 gamma 4 3 -0.004822   0.040221   -0.12  0.90489    
 gamma 4 4  0.032053   0.031651    1.01  0.31446    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.817  0.864  0.431  0.859 
@@ -1049,7 +1048,7 @@ gamma 4 2 -0.079919   0.051673   -1.55  0.12617
 gamma 4 3 -0.004822   0.040221   -0.12  0.90489    
 gamma 4 4  0.032053   0.031651    1.01  0.31446    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.817  0.864  0.431  0.859 
@@ -1164,7 +1163,7 @@ delta 2 1  0.001174   0.000258    4.55  1.9e-05 ***
 delta 3 1 -0.000228   0.000202   -1.13   0.2617    
 delta 4 1 -0.002820   0.000283   -9.96  1.0e-15 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.822  0.905  0.418 -5.650 
@@ -1239,7 +1238,7 @@ delta 3 2  2.86e-05   1.39e-05    2.07  0.04201 *
 delta 4 1 -3.04e-03   7.01e-04   -4.34  4.2e-05 ***
 delta 4 2  9.20e-06   1.99e-05    0.46  0.64442    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.829  0.939  0.537 -5.680 
@@ -1309,7 +1308,7 @@ gamma 4 2  0.01731    0.04419    0.39  0.69629
 gamma 4 3 -0.03926    0.02176   -1.80  0.07500 .  
 gamma 4 4 -0.19751    0.08462   -2.33  0.02206 *  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.685  0.844  0.431  0.712 
@@ -1414,7 +1413,7 @@ gamma 4 2  0.01731    0.04419    0.39  0.69629
 gamma 4 3 -0.03926    0.02176   -1.80  0.07500 .  
 gamma 4 4 -0.19751    0.08462   -2.33  0.02206 *  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.685  0.844  0.431  0.712 
@@ -1520,7 +1519,7 @@ gamma 4 2  0.05616    0.07559    0.74  0.45973
 gamma 4 3 -0.05583    0.05701   -0.98  0.33046    
 gamma 4 4 -0.21775    0.07901   -2.76  0.00728 ** 
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.695  0.851  0.448  0.718 
@@ -1625,7 +1624,7 @@ gamma 4 2  0.05616    0.07559    0.74  0.45973
 gamma 4 3 -0.05583    0.05701   -0.98  0.33046    
 gamma 4 4 -0.21775    0.07901   -2.76  0.00728 ** 
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.695  0.851  0.448  0.718 
@@ -1731,7 +1730,7 @@ gamma 4 2 -0.08414    0.05477   -1.54  0.12870
 gamma 4 3 -0.01187    0.04220   -0.28  0.77926    
 gamma 4 4  0.01822    0.04641    0.39  0.69565    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.817  0.864  0.444  0.858 
@@ -1836,7 +1835,7 @@ gamma 4 2 -0.08414    0.05477   -1.54  0.12870
 gamma 4 3 -0.01187    0.04220   -0.28  0.77926    
 gamma 4 4  0.01822    0.04641    0.39  0.69565    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.817  0.864  0.444  0.858 
@@ -1942,7 +1941,7 @@ gamma 4 2 -0.02050    0.02363   -0.87  0.38805
 gamma 4 3 -0.00440    0.01354   -0.32  0.74600    
 gamma 4 4 -0.02239    0.03829   -0.58  0.56030    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.627  0.832  0.412  0.657 
@@ -2047,7 +2046,7 @@ gamma 4 2 -0.016216   0.022336   -0.73  0.46995
 gamma 4 3  0.000768   0.013674    0.06  0.95533    
 gamma 4 4 -0.024285   0.032868   -0.74  0.46212    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.701  0.846  0.408  0.734 
@@ -2151,7 +2150,7 @@ gamma 4 2 -0.01875    0.02442   -0.77  0.44476
 gamma 4 3 -0.00920    0.01379   -0.67  0.50672    
 gamma 4 4 -0.03636    0.03911   -0.93  0.35519    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.620  0.830  0.414  0.640 
@@ -2262,7 +2261,7 @@ gamma 4 2  0.00277    0.04850    0.06  0.95454
 gamma 4 3 -0.04707    0.02325   -2.02  0.04609 *  
 gamma 4 4 -0.17643    0.09821   -1.80  0.07603 .  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
 wFood1 wFood2 wFood3 wFood4 
  0.636  0.830  0.415  0.651 
@@ -2377,7 +2376,7 @@ Em q_wFood4 pFood2   0.1392     0.0901    1.55   0.1260
 Em q_wFood4 pFood3   0.1168     0.0524    2.23   0.0287 *  
 Em q_wFood4 pFood4  -0.7745     0.1040   -7.45  9.0e-11 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > elaTX <- aidsElas( estResultAIDSTX$coef, shares = wMeans, prices = pMeans, method = "AIDS",
 +    coefCov = vcov( estResultAIDSTX ), df = df.residual( estResultAIDSTX ) )
 > print( elaTX )
@@ -2439,7 +2438,7 @@ Em q_wFood4 pFood2   0.1392     0.0901    1.55   0.1260
 Em q_wFood4 pFood3   0.1168     0.0524    2.23   0.0287 *  
 Em q_wFood4 pFood4  -0.7745     0.1040   -7.45  9.0e-11 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > print( all.equal( ela, elaTX ) )
 [1] TRUE
 > 
@@ -2522,7 +2521,7 @@ Em q_wFood4 pFood2   0.1401     0.0905    1.55   0.1254
 Em q_wFood4 pFood3   0.1172     0.0526    2.23   0.0288 *  
 Em q_wFood4 pFood4  -0.7739     0.1043   -7.42  1.0e-10 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > print( summary( elas( estResultAIDS ) ) )
                    Estimate Std. Error t value Pr(>|t|)    
 Ex q_wFood1          2.0472     0.1252   16.35  < 2e-16 ***
@@ -2562,7 +2561,7 @@ Em q_wFood4 pFood2   0.1415     0.0914    1.55   0.1254
 Em q_wFood4 pFood3   0.1184     0.0532    2.23   0.0288 *  
 Em q_wFood4 pFood4  -0.7715     0.1054   -7.32  1.6e-10 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > print( elas( estResultAIDSTX, observedShares = TRUE ) )
 
@@ -2643,7 +2642,7 @@ Em q_wFood4 pFood2   0.1401     0.0905    1.55   0.1254
 Em q_wFood4 pFood3   0.1172     0.0526    2.23   0.0288 *  
 Em q_wFood4 pFood4  -0.7739     0.1043   -7.42  1.0e-10 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > print( summary( elas( estResultAIDSTX ) ) )
                    Estimate Std. Error t value Pr(>|t|)    
 Ex q_wFood1          2.0472     0.1252   16.35  < 2e-16 ***
@@ -2683,7 +2682,7 @@ Em q_wFood4 pFood2   0.1415     0.0914    1.55   0.1254
 Em q_wFood4 pFood3   0.1184     0.0532    2.23   0.0288 *  
 Em q_wFood4 pFood4  -0.7715     0.1054   -7.32  1.6e-10 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > 
 > cat( "\nLA: Elasticity formula of non-linear AIDS\n" )
@@ -2750,7 +2749,7 @@ Em q_wFood4 pFood2   0.0476     0.0677    0.70  0.48385
 Em q_wFood4 pFood3   0.2307     0.0585    3.94  0.00017 ***
 Em q_wFood4 pFood4  -0.2981     0.2010   -1.48  0.14192    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > elaTX <- aidsElas( estResultLATX$coef, shares = wMeans, prices = pMeans, method = "AIDS",
 +    coefCov = vcov( estResultLATX ), df = df.residual( estResultLATX ) )
 > print( elaTX )
@@ -2812,7 +2811,7 @@ Em q_wFood4 pFood2   0.0476     0.0677    0.70  0.48385
 Em q_wFood4 pFood3   0.2307     0.0585    3.94  0.00017 ***
 Em q_wFood4 pFood4  -0.2981     0.2010   -1.48  0.14192    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > print( all.equal( ela, elaTX ) )
 [1] TRUE
 > 
@@ -2895,7 +2894,7 @@ Em q_wFood4 pFood2   0.0480     0.0680    0.71  0.48173
 Em q_wFood4 pFood3   0.2316     0.0587    3.94  0.00017 ***
 Em q_wFood4 pFood4  -0.2955     0.2018   -1.46  0.14693    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > print( summary( elas( estResultLA, method = "AIDS" ) ) )
                    Estimate Std. Error t value Pr(>|t|)    
 Ex q_wFood1         2.04944    0.12066   16.98  < 2e-16 ***
@@ -2935,7 +2934,7 @@ Em q_wFood4 pFood2  0.04858    0.06874    0.71  0.48173
 Em q_wFood4 pFood3  0.23422    0.05938    3.94  0.00017 ***
 Em q_wFood4 pFood4 -0.28749    0.20405   -1.41  0.16269    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > print( elas( estResultLATX, method = "AIDS", observedShares = TRUE ) )
 
@@ -3016,7 +3015,7 @@ Em q_wFood4 pFood2   0.0480     0.0680    0.71  0.48173
 Em q_wFood4 pFood3   0.2316     0.0587    3.94  0.00017 ***
 Em q_wFood4 pFood4  -0.2955     0.2018   -1.46  0.14693    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > print( summary( elas( estResultLATX, method = "AIDS" ) ) )
                    Estimate Std. Error t value Pr(>|t|)    
 Ex q_wFood1         2.04944    0.12066   16.98  < 2e-16 ***
@@ -3056,7 +3055,7 @@ Em q_wFood4 pFood2  0.04858    0.06874    0.71  0.48173
 Em q_wFood4 pFood3  0.23422    0.05938    3.94  0.00017 ***
 Em q_wFood4 pFood4 -0.28749    0.20405   -1.41  0.16269    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > elas( estResultLaS, method = "AIDS" )
 
@@ -5292,9 +5291,9 @@ $quant
 > all.equal( fittedLaSNa$shares, estResultLaSNa$wFitted )
 [1] "Names: 4 string mismatches"
 > all.equal( fittedLaSNa$quant, estResultLaSNa$qFitted )
-[1] "Names: 4 string mismatches"                                          
-[2] "Attributes: < Component 2: Modes: character, numeric >"              
-[3] "Attributes: < Component 2: target is character, current is numeric >"
+[1] "Names: 4 string mismatches"                                                      
+[2] "Attributes: < Component \"row.names\": Modes: character, numeric >"              
+[3] "Attributes: < Component \"row.names\": target is character, current is numeric >"
 > predictedLaSNa <- predict( estResultLaSNa, observedShares = TRUE )
 > all.equal( fittedLaSNa$shares, predictedLaSNa$shares[ set, ] )
 [1] TRUE
@@ -8915,7 +8914,7 @@ delta 4 1  1.24e-02   1.15e-03   10.80  < 2e-16 ***
 delta 4 2 -3.34e-03   1.09e-03   -3.05   0.0025 ** 
 delta 4 3  3.06e-04   4.61e-05    6.64  1.7e-10 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 R-squared Values of expenditure shares:
   beef_w   pork_w  chick_w turkey_w 
    0.954    0.778    0.978   -1.380 
@@ -8979,7 +8978,7 @@ Model 4: estResultLA (LA-AIDS, symmetry and homogeneity imposed)
 3  24    365  3  20.6    0.00013 ***
 4  18    353 -6  24.3    0.00046 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > lrtest( estResultLATX, estResultLAhomTX, estResultLAunrTX, estResultLATX )
 Likelihood ratio test
 
@@ -8993,7 +8992,7 @@ Model 4: estResultLATX (LA-AIDS, symmetry and homogeneity imposed)
 3  24    365  3  20.6    0.00013 ***
 4  18    353 -6  24.3    0.00046 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > lrtest( estResultLaLs, estResultLAtrend, estResultLAtrend2, estResultLaLs )
 Likelihood ratio test
 
@@ -9007,7 +9006,7 @@ Model 4: estResultLaLs (LA-AIDS, symmetry and homogeneity imposed)
 3  24    397  3  22.4    5.4e-05 ***
 4  18    359 -6  76.1    2.3e-14 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > lrtest( estResultAIDSunr, estResultAIDShom, estResultAIDS, estResultAIDSunr )
 Likelihood ratio test
 
@@ -9021,7 +9020,7 @@ Model 4: estResultAIDSunr (AIDS, unrestricted)
 3  18    352 -3  3.65      3e-01    
 4  24    365  6 26.20      2e-04 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > lrtest( estResultAIDSunrTX, estResultAIDShomTX, estResultAIDSTX,
 +    estResultAIDSunrTX )
 Likelihood ratio test
@@ -9036,7 +9035,7 @@ Model 4: estResultAIDSunrTX (AIDS, unrestricted)
 3  18    352 -3  3.65      3e-01    
 4  24    365  6 26.20      2e-04 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > 
 > ## comparing estimations results with different methods to impose restrictions
@@ -9102,4 +9101,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  8.992   0.096   9.093 
+  8.189   0.116   8.290 
