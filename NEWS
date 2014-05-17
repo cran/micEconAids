@@ -5,6 +5,11 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
+            CHANGES IN VERSION 0.6-16 (2014-05-17)
+
+* corrected formatting in the documentation
+
+
             CHANGES IN VERSION 0.6-14 (2014-04-22)
 
 * 'micEconAids' no longer depends on packages 'miscTools' and 'systemfit' but

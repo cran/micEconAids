@@ -1,6 +1,6 @@
-fb01b0fa240e6904041b54a61be4f3e3 *DESCRIPTION
+a27a13ffc2b331fab3b5af3c063599c7 *DESCRIPTION
 9cdfec4993b63b0ed2b4bfef3ee07f60 *NAMESPACE
-7ef64c37399e29378052c4d6c1df8b38 *NEWS
+fea5ac3284470faa61b83e9f69c8c2be *NEWS
 062af0c5ee0c62e7b69692e0846e3f8a *R/aidsBestA0.R
 ae5b932fd1081261782eb691eae6255a *R/aidsCalc.R
 1cd2745d7e50d405d1342717d8447e4e *R/aidsCheckCoef.R
@@ -43,7 +43,7 @@ f7e2bba896b479c03bdb2c966f091928 *R/vcov.aidsEst.R
 1c4cc6b669bd2984a8cca4b0bdd1417e *data/Blanciforti86.txt.gz
 2f4ac606b78c969229bae7df2f1a8ff6 *data/USMeatConsump.tab.gz
 debc36fede27d94b569eedd2910be37e *man/Blanciforti86.Rd
-b5834ec20c474b52ca6066fcb88e9204 *man/USMeatConsump.Rd
+6f481c7328788fd36f25437a54175c69 *man/USMeatConsump.Rd
 dc66fa6bdcfac0d58f8244e5b8dc8b52 *man/aidsBestA0.Rd
 58d84dadaf12b034ee1c312d38859fd7 *man/aidsCalc.Rd
 b687e759b37ab74130feef9230b87d12 *man/aidsConcav.Rd

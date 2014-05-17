@@ -23,20 +23,20 @@
       \item{t}{Time trend.}
       \item{pop}{Population [million].}
       \item{cpi}{Consumer price index.}
-      \item{total\_exp}{Total per capita expenditure.}
-      \item{meat\_exp}{Per capita expenditure on meat.}
-      \item{beef\_q}{Per capita consumption of beef [pound].}
-      \item{pork\_q}{Per capita consumption of pork[pound].}
-      \item{chick\_q}{Per capita consumption of chicken [pound].}
-      \item{turkey\_q}{Per capita consumption of turkey [pound].}
-      \item{beef\_p}{Retail price of beef [cents / pound].}
-      \item{pork\_p}{Retail price of pork [cents / pound].}
-      \item{chick\_p}{Retail price of chicken [cents / pound].}
-      \item{turkey\_p}{Retail price of turkey [cents / pound].}
-      \item{beef\_w}{Expenditure share of beef (in meat).}
-      \item{pork\_w}{Expenditure share of pork (in meat).}
-      \item{chick\_w}{Expenditure share of chicken (in meat).}
-      \item{turkey\_w}{Expenditure share of turkey (in meat).}
+      \item{total_exp}{Total per capita expenditure.}
+      \item{meat_exp}{Per capita expenditure on meat.}
+      \item{beef_q}{Per capita consumption of beef [pound].}
+      \item{pork_q}{Per capita consumption of pork[pound].}
+      \item{chick_q}{Per capita consumption of chicken [pound].}
+      \item{turkey_q}{Per capita consumption of turkey [pound].}
+      \item{beef_p}{Retail price of beef [cents / pound].}
+      \item{pork_p}{Retail price of pork [cents / pound].}
+      \item{chick_p}{Retail price of chicken [cents / pound].}
+      \item{turkey_p}{Retail price of turkey [cents / pound].}
+      \item{beef_w}{Expenditure share of beef (in meat).}
+      \item{pork_w}{Expenditure share of pork (in meat).}
+      \item{chick_w}{Expenditure share of chicken (in meat).}
+      \item{turkey_w}{Expenditure share of turkey (in meat).}
    }
 }
 
