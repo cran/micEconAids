@@ -43,7 +43,7 @@
 \source{
    SAS,
    \emph{SAS/ETS Examples: Estimating an Almost Ideal Demand System Model},
-   \url{http://support.sas.com/rnd/app/examples/ets/aids/index.htm}.
+   \url{https://support.sas.com/rnd/app/ets/examples/aids/index.htm}.
 }
 
 \examples{

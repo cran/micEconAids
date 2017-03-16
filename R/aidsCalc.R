@@ -130,7 +130,7 @@ aidsCalc <- function( priceNames, totExpName, coef, data,
          if( all( !is.na( c( logPrices, logTotExp ) ) ) ) {
             shareData[ i, ] <-
                coef$alpha + coef$gamma %*% logPrices + coef$beta * logTotExp -
-               coef$beta * t( logPrices ) %*% as.numeric( shareData[ i-1, ] )
+               coef$beta * drop( crossprod( logPrices, as.numeric( shareData[ i-1, ] ) ) )
          }
       }
    } else if( priceIndex == "P" ) {
@@ -153,7 +153,7 @@ aidsCalc <- function( priceNames, totExpName, coef, data,
                   t( log( prices / basePrices ) ),
                   coef$alpha + coef$gamma %*% log( prices ) +
                   coef$beta * logTotExp - 0.5 * coef$beta *
-                  ( t( log( prices / basePrices ) ) %*% baseShares ) )
+                  drop( crossprod( log( prices / basePrices ), baseShares ) ) )
          }
       }
    } else {

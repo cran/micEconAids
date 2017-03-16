@@ -31,6 +31,7 @@ S3method( "summary", "aidsEst" )
 S3method( "vcov", "aidsEst" )
 
 importFrom( "lmtest", "lrtest" )
+importFrom( "lmtest", "lrtest.default" )
 importFrom( "micEcon", "checkConsist" )
 importFrom( "micEcon", "elas" )
 
@@ -39,6 +40,13 @@ importFrom( "miscTools", "coefTable" )
 importFrom( "miscTools", "rSquared" )
 importFrom( "miscTools", "semidefiniteness" )
 
+importFrom( "stats", "as.formula" )
+importFrom( "stats", "coef" )
+importFrom( "stats", "df.residual" )
+importFrom( "stats", "logLik" )
 importFrom( "stats", "nobs" )
+importFrom( "stats", "printCoefmat" )
+importFrom( "stats", "pt" )
+importFrom( "stats", "vcov" )
 
 importFrom( "systemfit", "systemfit" )

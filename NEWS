@@ -5,6 +5,11 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
+            CHANGES IN VERSION 0.6-18 (2017-03-16)
+
+* added a 'vignette'
+
+
             CHANGES IN VERSION 0.6-16 (2014-05-17)
 
 * corrected formatting in the documentation

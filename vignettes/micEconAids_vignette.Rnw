@@ -1,0 +1,2074 @@
+\documentclass[nojss]{jss}
+% \VignetteIndexEntry{Demand Analysis with the ``Almost Ideal Demand System'' in R: Package micEconAids}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% almost as usual
+\author{Arne Henningsen\\Department of Food and Resource Economics, University of Copenhagen}
+
+\title{Demand Analysis with the\\
+   ``Almost Ideal Demand System''\\
+   in \proglang{R}: Package \pkg{micEconAids}}
+
+%% for pretty printing and a nice hypersummary also set:
+\Plainauthor{Arne Henningsen} %% comma-separated
+\Plaintitle{Demand Analysis with the Almost Ideal Demand System in R:
+   Package micEconAids} %% without formatting
+\Shorttitle{Demand Analysis in R: micEconAids} %% a short title (if necessary)
+
+%% an abstract and keywords
+\Abstract{
+The \proglang{R} package \pkg{micEconAids} provides
+a convenient interface for demand analysis with
+the Almost Ideal Demand System (AIDS)
+and its linear approximation (LA-AIDS).
+The user can choose between various approaches
+for the econometric estimation,
+e.g.\ the ``Iterative Linear Least-Squares Estimator.''
+Furthermore, many different formulas for calculating demand elasticities
+are available.
+A special feature
+is the calculation of the variance-covariance matrix
+and the standard errors of the demand elasticities of the AIDS.
+}
+\Keywords{demand analysis, almost ideal demand system,
+   demand elasticities, \proglang{R}}
+\Plainkeywords{demand analysis, almost ideal demand system,
+   demand elasticities, R} %% without formatting
+%% at least one keyword must be supplied
+
+%% publication information
+%% NOTE: Typically, this can be left commented and will be filled out by the technical editor
+%% \Volume{13}
+%% \Issue{9}
+%% \Month{September}
+%% \Year{2004}
+%% \Submitdate{2004-09-29}
+%% \Acceptdate{2004-09-29}
+
+%% The address of (at least) one author should be given
+%% in the following format:
+\Address{
+   Arne Henningsen\\
+   Department of Food and Resource Economics\\
+   University of Copenhagen\\
+   Rolighedsvej 25\\
+   1958 Frederiksberg C, Denmark\\
+   Telephone: +45 3533 2274\\
+   E-mail: \email{arne.henningsen@gmail.com}\\
+   URL: \url{http://www.arne-henningsen.name/}
+}
+%% It is also possible to add a telephone and fax number
+%% before the e-mail in the following format:
+%% Telephone: +43/1/31336-5053
+%% Fax: +43/1/31336-734
+
+%% for those who use Sweave please include the following line (with % symbols):
+%% need no \usepackage{Sweave.sty}
+
+%% end of declarations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{amsmath}
+
+\setlength{\emergencystretch}{2em}
+
+\newcommand{\hz}{\hspace{0pt}}
+
+\newcommand{\ELA}{\mbox{\large$\epsilon$}}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+The ``Almost Ideal Demand System'' (AIDS) proposed by
+\citet{deaton80a,deaton80b}
+is probably the most popular demand system
+in empirical demand analysis.
+It has been applied not only for many studies of general household demand,
+but also in various specific fields
+such as analyzing labor/\hz{}leisure choice,
+financing decisions,
+sensitivity to price changes of private labels,
+patent licensing values, or
+greenhouse gas emissions.
+Although the AIDS model is more than 25 years old,
+this functional form is still widely used in recent publications
+\citep[see, e.g.,][]{brannlund07, chambwera07, farrell07, hausman07,
+henning07v, huang07, moore07, raknerud07, west07, xiao07},
+because it unifies almost all theoretically and empirically
+desirable properties.
+However, several scholars have shown
+that the econometric estimation is paved with a number of pitfalls.
+For instance, the linear approximation of the AIDS (LA-AIDS)
+using the Stone price index,
+which is applied in most empirical studies,
+leads to severe econometric and theoretical problems.
+Therefore, a vast literature evolved
+proposing several different approaches
+that try to circumvent these problems.
+
+The aim of this paper is to describe
+the tools for demand analysis with the AIDS
+that are available in the \proglang{R} \citep{r-project08}
+package \pkg{micEconAids} (version 0.5).
+Among several other tools for microeconomic analysis,
+this package provides the function \code{aidsEst}
+which is a convenient user interface for the econometric estimation of an AIDS.
+The user can choose between various estimation approaches
+such as the linear approximate AIDS (LA-AIDS)
+with several different price indices
+and the Iterative Linear Least Squares Estimator (ILLE).
+Furthermore, the function \code{aidsEla} and the method \code{elas}
+can calculate demand elasticities and their standard errors
+by several different formulas
+that can be found in the literature.
+
+The tools for demand analysis with the AIDS
+that are available in the \pkg{micEconAids} package
+have several advantages compared to other implementations of the AIDS model
+\citep[e.g.,][]{poi02,sas08,sas08a}:
+(i) the \pkg{micEconAids} package entirely relies on free software
+so that it can be tested and used instantly
+without any license restrictions by everyone
+(e.g., by students of a course in microeconomic modeling);
+(ii) the \pkg{micEconAids} package itself
+as well as all software packages utilized by \pkg{micEconAids}
+are open-source software
+so that users can (peer) review the algorithms
+and --- if necessary --- modify or extend the source code
+to meet specific requirements;
+(iii) the \pkg{micEconAids} package includes
+many different approaches for demand analysis with the AIDS
+that are generally not available in other implementations;
+(iv) the tools in the \pkg{micEconAids} package provide various user options
+so that users can easily switch between these different approaches;
+(v) the tools in the \pkg{micEconAids} package are much
+user-friendlier than other implementations
+so that even users with virtually no programming skills
+can perform a demand analysis with the AIDS
+(e.g., the estimation of the AIDS can be done by a single command).
+However, there are also
+a few features of other implementations
+that are currently not available in the \pkg{micEconAids} package;
+it is planned to add these missing features in the future
+(see Section~\ref{sec:conclusion}).
+
+The following section of this paper
+describes the AIDS and LA-AIDS
+and how these models can be estimated with the \pkg{micEconAids} package.
+The third section discusses consistency with economic theory
+and explains how this can be imposed or checked.
+The calculation of demand elasticities
+is described in the fourth section.
+% Some further miscellaneous tools for demand analysis with the AIDS
+The prediction of expenditure shares and demanded quantities
+is presented in the fifth section.
+The sixth section uses the \pkg{micEconAids} package
+to replicate two demand analyses
+that are published in the literature.
+The last section summarizes and concludes.
+
+
+\section{Estimating the AIDS}
+
+% \subsection[Almost Ideal Demand System]{The ``Almost Ideal Demand System''}
+
+The ``Almost Ideal Demand System'' (AIDS) is widely used in applied demand analysis,
+because it has many desirable properties:
+(a) it is an arbitrary first-order approximation to any demand system;
+(b) it satisfies the axioms of choice;
+(c) it aggregates exactly over consumers
+while still allowing non-linear Engel curves,
+(d) the homogeneity and symmetry property can be tested
+and imposed by simple parameter restrictions and
+(e) the demand equations become linear if the translog price index
+is approximated e.g.\ by the Stone index \citep[p.~312]{deaton80a}.
+However, it seems that \citeauthor{deaton80a} were
+a little bit too optimistic --- at least regarding the last property.
+We will come back to this issue later.
+
+The AIDS is based on microeconomic household theory.
+The starting point of the model is the expenditure function%
+\footnote{
+The economic terms that are used in this paper 
+(e.g., ``expenditure function'')
+are explained
+Appendix~\ref{sec:economicTerms}.}
+ $e( p_t , U_t )$ with
+\begin{equation}
+\ln m_t = \ln e \left( p_t, U_t \right)
+= \alpha_0 + \sum_i \alpha_i \ln p_{it}
++ \frac{1}{2} \sum_i \sum_j \gamma_{ij}^* \ln p_{it} \ln p_{jt}
++ U_t \beta_0 \prod_i  p_{it}^{\beta_i},
+\label{eq:expenditure}
+\end{equation}
+where
+$m_t$ is total expenditure at time $t$,
+$p_{it}$ is the price of good $i$ at time $t$,
+$U_t$ is the utility level at time $t$,
+and $\alpha$, $\beta$ and $\gamma^*$ are coefficients.
+
+
+% \subsection{Demand functions}
+
+Marshallian (uncompensated) demand functions
+can be derived from the expenditure function~(\ref{eq:expenditure})
+by applying Shephard's Lemma
+and replacing the unobservable utility level
+by the indirect utility function
+that corresponds to the expenditure function
+\citep[p.~313]{deaton80a}:
+\begin{equation}
+x_{it} ( p_t , m_t )
+= \frac{m_t}{p_{it}}
+   \left( \alpha_i + \sum_j \gamma_{ij} \ln p_{jt}
+   + \beta_i \ln \left( m_t / P_t \right) \right)
+\label{eq:marshallian}
+\end{equation}
+where $x_{it}$ is the consumed quantity of good $i$,
+$\gamma_{ij} = \frac{1}{2} ( \gamma_{ij}^{*} + \gamma_{ji}^{*} )$,
+and $P_t$ is a translog price index:
+\begin{equation}
+\ln P_{t} = \alpha_0 + \sum_i \alpha_i \ln p_{it}
++ \frac{1}{2} \sum_i \sum_j \gamma_{ij} \ln p_{it} \ln p_{jt}
+\label{eq:pi-translog}
+\end{equation}
+
+The demand equations of the AIDS can be simplified
+by expressing them as expenditure shares:
+\begin{equation}
+s_{it} ( p_t , m_t )
+= \alpha_i + \sum_j \gamma_{ij} \ln p_{jt}
++ \beta_i \ln \left( m_t / P_t \right)
+\label{eq:marshall-share}
+\end{equation}
+where $s_{it} = x_{it} \, p_{it} / m_t$ is the expenditure share
+of good $i$.
+
+
+% \subsection{Theoretical microeconomic consistency}
+
+Microeconomic household theory
+and in particular the assumption of utility maximization
+imposes a few restrictions on the coefficients.
+
+The ``adding-up'' condition ensures
+that the expenditure shares always sum up to one
+$\left( \sum_i s_i = 1 \right)$.
+This condition is fulfilled if
+\begin{equation}
+\sum_{i} \alpha_{i} = 1; \,
+\sum_{i} \beta_{i} = 0; \,
+\sum_{i} \gamma_{ij} = 0
+\; \forall \; j
+\label{eq:adding-up}
+\end{equation}
+
+The ``homogeneity'' condition guarantees
+that there is no ``money illusion'',
+i.e.\ if all prices and income change by the same rate
+(e.g.\ when a new currency like the EURO is introduced),
+the consumed quantities do not change.
+It is fulfilled if
+\begin{equation}
+\sum_j \gamma_{ij} = 0 \; \forall \; i
+\label{eq:homogeneity}
+\end{equation}
+
+The ``symmetry'' condition follows from applying Shepard's Lemma
+to the expenditure function of the AIDS (\ref{eq:expenditure}).
+It can be derived directly from the definition of the $\gamma$s,
+which can be found below equation~(\ref{eq:marshallian}):
+\begin{equation}
+\gamma_{ij} = \gamma_{ji}
+\; \forall \; i,j
+\label{eq:symmetry}
+\end{equation}
+
+
+\subsection{Econometric estimation}
+\label{sec:estimation}
+
+To facilitate the econometric estimation
+of the Marshallian demand equations (\ref{eq:marshall-share}),
+we substitute the observed (stochastic) budget shares $w_{it}$
+for the (unobservable) deterministic budget shares $s_{it}$
+and add disturbance terms $u_{it}$.
+Hence, we get a system of equations
+that can be econometrically estimated:
+\begin{equation}
+w_{it} = \alpha_i + \sum_j \gamma_{ij} \ln p_{jt}
+   + \beta_i \ln \left( m_t / P_t \right) + u_{it}
+\label{eq:demand-observed}
+\end{equation}
+Given the fact that the observed budget shares always sum-up to one
+$(\sum_i w_{it} = 1 \; \forall \, t)$,
+the adding-up restrictions~(\ref{eq:adding-up})
+are automatically fulfilled \citep[p.~76]{deaton80b}
+and the disturbance terms always sum-up to zero
+$(\sum_i u_{it} = 0 \; \forall \, t)$.
+Hence, the covariance matrix of the disturbance terms is singular
+\citep[p.~512]{blanciforti83b}.
+To avoid estimation problems due to this singularity,
+one of the equations has to be dropped
+from the system equations~(\ref{eq:demand-observed}).
+The coefficients of the dropped equation
+can be calculated by the adding-up restrictions~(\ref{eq:adding-up}).
+Since no information is lost by dropping one equation from the system,
+the estimation results do not depend on
+what equation is dropped
+\citep[p.~25]{barten69}.
+
+Since the Marshallian demand equations (\ref{eq:demand-observed}) are linear
+except for the translog price index $P_t$,
+\citet{deaton80a} proposed to approximate the translog price index
+by the Stone index.
+As this approximation makes the demand equations linear in parameters,
+the system of share equations is much easier to estimate.
+This simplification of the original AIDS model is commonly called
+``linear approximation of the AIDS'' (LA-AIDS):
+\begin{equation}
+w_{it} = \alpha_i^S + \sum_j \gamma_{ij}^S \ln p_{jt}
+ + \beta_i^S \ln \left( x_t / P_t^S \right) + u_{it}^S
+\label{eq:demand-stone}
+\end{equation}
+where
+\begin{equation}
+ln P_t^S = \sum_i w_{it} \ln p_{it}
+\label{eq:pi-stone}
+\end{equation}
+and $\alpha^{S}$, $\beta^{S}$ and $\gamma^{S}$
+are the coefficients of the LA-AIDS.
+
+
+\subsection[Using function aidsEst]{Using function \code{aidsEst}}
+\label{sec:using-aidsEst}
+\SweaveOpts{prefix.string=R-Trash}
+
+The function \code{aidsEst}
+that is included in the \pkg{micEconAids} package
+provides a simple interface for the econometric estimation of the AIDS.
+Internally, this function uses
+the \proglang{R} package \pkg{systemfit} \citep{henningsen07a,r-systemfit-1.0}
+to estimate the system of demand equations
+(\ref{eq:marshall-share} or \ref{eq:demand-stone})
+by ``Seemingly Unrelated Regression'' \citep[SUR,][]{zellner62}.
+The \code{aidsEst} function is generally called by
+<<eval=FALSE>>=
+aidsEst( priceNames, shareNames, totExpName, data )
+@
+There are four mandatory arguments:
+\code{priceNames} must be a vector of strings
+that specifies the variable names of the prices,
+\code{shareNames} must be a vector of strings
+that specifies the variable names of the expenditure shares,
+\code{totExpName} must be a string
+that specifies the variable name of total expenditure, and
+\code{data} specifies a data frame
+that contains these variables.
+The most important optional arguments are
+\code{method} and \code{priceIndex}:
+\code{method} specifies the estimation method of the AIDS
+(e.g., \code{"LA"} for the LA-AIDS, equation~\ref{eq:demand-stone})
+and \code{priceIndex} specifies the price index for the LA-AIDS
+(e.g., \code{"S"} for the Stone price index, equation~\ref{eq:pi-stone}).
+
+We will demonstrate the usage of \code{aidsEst}
+by analyzing U.S.\ food demand using annual consumption data
+that are published in \citet{blanciforti86}.
+The data set \code{Blanciforti86}
+that is included in the \proglang{R} package \pkg{micEconAids}
+provides these data.
+
+We start this analysis by loading the \pkg{micEconAids} package
+and the data set \code{Blanciforti86}.
+<<results=hide>>=
+library(micEconAids)
+data( "Blanciforti86" )
+@
+
+This data set distinguishes four categories of food:
+(i) meats,
+(ii) fruits and vegetables,
+(iii) cereal and bakery products, and
+(iv) miscellaneous foods.
+The variables that are needed for this analysis
+are the prices of the four categories
+(\code{pFood1}, \code{pFood2}, \code{pFood3}, \code{pFood4}),
+the expenditure shares of these categories
+(\code{wFood1}, \code{wFood2}, \code{wFood3}, \code{wFood4}),
+and total expenditure on food (\code{xFood}).
+The data on food consumption are available for the first 32 years
+of this data set only, i.e.\ for the years 1947 to 1978.
+To avoid warning messages of removed observations
+due to non-available values,
+we remove all observations with non-available values from the data set.
+<<>>=
+Blanciforti86 <- Blanciforti86[ 1:32, ]
+@
+
+For convenience, we specify two vectors
+that contain the variable names of the prices and the expenditure shares.
+<<>>=
+priceNames <- c( "pFood1", "pFood2", "pFood3", "pFood4" )
+shareNames <- c( "wFood1", "wFood2", "wFood3", "wFood4" )
+@
+
+Now, we can use \code{aidsEst}
+to estimate the LA-AIDS model with this data set.
+Here, we can omit argument \code{method},
+because it is \code{"LA"} (LA-AIDS) by default.
+<<>>=
+laaidsResult <- aidsEst( priceNames, shareNames, "xFood", data = Blanciforti86,
+   priceIndex = "S"  )
+print( laaidsResult )
+@
+This output presents all estimated coefficients:
+all $\alpha$s, $\beta$s, and $\gamma$s.
+Their standard errors, t-values and p-values
+as well as the $R^2$ values of the expenditure shares
+and of the demanded quantities can be obtained
+by applying the \code{summary} method.
+<<>>=
+summary( laaidsResult )
+@
+
+
+\subsection{Problems and possible solutions of the LA-AIDS}
+\label{sec:laaids-problems}
+
+The empirical application of the LA-AIDS is rather simple,
+because it can be estimated as a system of linear equations,
+which can be conveniently done in many econometrics packages.
+The only challenge might be the imposition
+of the cross-equation parameter restrictions
+to ensure symmetry~(\ref{eq:symmetry}).
+However, the linear approximation of the AIDS introduces several problems.
+In the following, we will discuss some of these problems
+as well as a few solutions
+that have been suggested to circumvent these problems.
+
+
+\subsubsection{Simultaneity Bias}
+\label{sec:simultaneity-bias}
+
+<<echo=FALSE,results=hide>>=
+options( digits = 3)
+@
+
+Since the Stone index includes current budget shares $( w_{it} )$,
+they appear both on the left- and on the right-hand side
+of the estimated share equation of the LA-AIDS~(\ref{eq:demand-stone}).
+The resulting correlation between
+the regressor $\ln ( x_t / P_t^S )$
+and the disturbance term $u_{it}^S$
+leads to a simultaneity bias of the estimation
+\citep[p.~522]{eales88}.
+Therefore, several scholars \citep[e.g.][]{blanciforti86, eales88}
+use lagged shares in the Stone price index.
+\begin{equation}
+ln P_t^{SL} = \sum_i w_{i\,t-1} \ln p_{it}
+\label{eq:pi-stone-lagged}
+\end{equation}
+The LA-AIDS with the Stone price index based on lagged shares
+will be estimated by \code{aidsEst},
+if the price index specified in argument \code{method}
+is set to the abbreviation \code{SL}.
+<<>>=
+laaidsResultSL <- aidsEst( priceNames, shareNames, "xFood", data = Blanciforti86,
+   priceIndex = "SL" )
+@
+
+Alternatively, \citet[p.~973]{hahn94} proposes to overcome this problem
+by using a different price index that either does not depend on current shares
+(e.g., the log-linear analog of the Laspeyres price index
+presented in the following section).
+
+A third solution is an econometric estimation
+by the ``Three-Stage Least Squares'' (3SLS) method
+\citep{alston94, buse93, buse94, buse00}.
+A reasonable choice of instrumental variables would be
+(at least) all logged prices and logged (nominal) total expenditure.
+The argument \code{instNames} of command \code{aidsEst}
+can be used to specify the names of the instrumental variables.
+If this argument is used,
+the (default) estimation method is 3SLS.
+<<>>=
+instNames <- c( paste( "l", priceNames, sep = "" ), "lxFood" )
+for( i in 1:4 ){
+   Blanciforti86[[ instNames[ i ] ]] <-
+      log( Blanciforti86[[ priceNames[ i ] ]] )
+}
+Blanciforti86[[ "lxFood" ]] <- log( Blanciforti86[[ "xFood" ]] )
+
+laaidsResultIV <- aidsEst( priceNames, shareNames, "xFood",
+   data = Blanciforti86, priceIndex = "S", instNames = instNames )
+@
+
+
+\subsubsection{Units of measurement}
+\label{sec:unitsofmeasurement}
+
+The Stone price index is not invariant to changes in the units of measurement,
+i.e.\ the results depend on the units of measurements of the prices
+(e.g.\ if they are in EURO/kg or US\$/pound).
+As this is generally undesirable,
+\citet{moschini95} proposes to use
+the log-linear analog of the Paasche~(\ref{eq:pi-paasche})
+or Laspeyres~(\ref{eq:pi-laspeyres}) price index
+or the Tornqvist price index~(\ref{eq:pi-tornqvist})
+in place of the Stone price index in the LA-AIDS:
+\begin{align}
+\ln P_t^P & = \sum_k w_{kt} \ln \frac{p_{kt}}{p_{k0}}
+\label{eq:pi-paasche}\\
+\ln P_t^L & = \sum_k w_{k0} \ln \frac{p_{kt}}{p_{k0}}
+\label{eq:pi-laspeyres}\\
+\ln P_t^T & = \frac{1}{2} \sum_k \left(
+   ( w_{kt} + w_{k0} ) \ln \frac{ p_{kt} }{ p_{k0} } \right)
+\label{eq:pi-tornqvist}
+\end{align}
+where $w_{k0}$ and $p_{k0}$ indicate expenditure shares and prices
+in a ``base'' period (e.g.\ at sample mean values).
+
+The function \code{aidsEst}
+estimates the LA-AIDS with the Paasche, Laspeyres or Tornqvist price index,
+if argument \code{priceIndex}
+is set to the abbreviation \code{"P"}, \code{"L"}, or \code{"T"},
+respectively.
+<<>>=
+laaidsResultP <- aidsEst( priceNames, shareNames, "xFood",
+   data = Blanciforti86, priceIndex = "P" )
+
+laaidsResultL <- aidsEst( priceNames, shareNames, "xFood",
+   data = Blanciforti86, priceIndex = "L" )
+
+laaidsResultT <- aidsEst( priceNames, shareNames, "xFood",
+   data = Blanciforti86, priceIndex = "T" )
+@
+
+Since the weights $w_{k0}$
+of the Laspeyres price index~(\ref{eq:pi-laspeyres}) are constants
+and only invariance up to a multiplicative constant is required,
+this price index can be simplified
+\citep[p.~65]{moschini95}.
+\begin{equation}
+\ln P_t^{Ls} = \sum_k w_{k0} \ln p_{kt}
+\label{eq:pi-laspeyres-simplified}\\
+\end{equation}
+The LA-AIDS with this simplified Laspeyres price index
+is estimated by \code{aidsEst},
+if argument \code{priceIndex} is equal to \code{"Ls"}.
+This is its default value of this argument, and hence,
+it can be omitted.
+<<>>=
+laaidsResultLs <- aidsEst( priceNames, shareNames, "xFood",
+   data = Blanciforti86 )
+@
+Since~(\ref{eq:pi-laspeyres}) differs
+from~(\ref{eq:pi-laspeyres-simplified}) only by an additive constant,
+this model is equivalent to the model
+with the (non-simplified) Laspeyres price index.
+This simplification changes only the $\alpha$s
+but has no effect on the $\beta$s, $\gamma$s, and $R^2$ values
+<<>>=
+all.equal( coef( laaidsResultL )$alpha, coef( laaidsResultLs )$alpha )
+all.equal( coef( laaidsResultL )$beta, coef( laaidsResultLs )$beta )
+all.equal( coef( laaidsResultL )$gamma, coef( laaidsResultLs )$gamma )
+all.equal( laaidsResultL$r2, laaidsResultLs$r2 )
+@
+
+While all these alternative price indices
+--- unlike the Stone index ---
+perform very well in the simulation study of \citet{moschini95},
+the Monte Carlo studies of \citet{buse98} and \citet{buse00} indicate
+that the Paasche index is as poor as the Stone index.
+An advantage of the Laspeyres index is
+that the actual budget shares do not appear on the right-hand
+side of the share equation,
+which avoids the simultaneity problem \citep[p.~1183]{asche97}.
+
+
+\subsubsection{Approximation errors}
+
+The approximation of the true translog price index
+necessarily leads to an approximation error.
+\citet[p.~316]{deaton80a} argue
+that if prices are closely collinear,
+any price index (e.g.\ $P^S$) is an adequate approximation
+to the true translog price index $P$.
+However, \citet[p.~210]{buse98} shows that high collinearity
+is neither necessary nor sufficient for a good approximation.
+The approximation error can be seen
+as an ``omitted variables problem'' \citep[p.~909]{pashardes93}
+or an ``errors-in-variables problem'' \citep[p.~782]{buse94}.
+Both perspectives generally lead to biased and inconsistent
+OLS and SUR estimates.
+Generally, an instrumental variable (IV) estimation might solve this problem,
+but \citet[p.~782f]{buse94} and \citet[p.~520]{buse00}
+show that it is impossible to find appropriate instrumental variables (IV)
+in this case.
+Therefore, this problem remains unsolved,
+and hence, no solution can be presented in \pkg{micEconAids}.
+
+
+\subsubsection{Theoretical inconsistency}
+
+In the LA-AIDS --- like in the original AIDS ---
+adding-up (\ref{eq:adding-up}) is automatically fulfilled and
+homogeneity can be imposed by parameter restrictions (\ref{eq:homogeneity}),
+while the usual symmetry restrictions (\ref{eq:symmetry}) guarantee symmetry
+only if all prices are identical \citep[p.~975]{hahn94}.
+Therefore, the LA-AIDS itself is not an integrable demand system
+\citep[p.~351]{alston94}.
+Of course, no econometric software can solve this problem.
+Therefore, the question arises
+whether the linear approximation should be applied at all.
+
+
+\subsection{Iterative Linear Least Squares Estimation}
+\label{sec:ille}
+
+As no solution exists for some of the severe problems of the LA-AIDS,
+the estimation of the non-linear AIDS suggests itself.
+It can be consistently and asymptotically
+efficiently estimated by full information maximum likelihood (FIML)
+or by non-linear seemingly unrelated regression (SUR).
+Although non-linear estimation methods are implemented in most econometric
+software packages,
+these procedures often cause problems in practical work
+(e.g.\ non-convergence).
+Moreover, while the \proglang{R} package \pkg{systemfit}
+\citep{henningsen07a,r-systemfit-1.0}
+has proved to be reliable in linear system estimations for a long time,
+its function for non-linear system estimations (\code{nlsystemfit})
+is still under development.
+However, the non-linear AIDS can also be estimated by iterations
+of linear estimations \citep{browning91,michalek92,blundell99}.
+In a first step,
+the share equations can be estimated by linear estimation techniques
+holding the translog price index fixed.
+In a second step, the translog price index can be updated
+with the newly estimated coefficients.
+These two steps can be repeated until the coefficients converge.
+Initial values for the coefficients to calculate the translog price index
+can be obtained from a LA-AIDS estimation.
+\citet{blundell99} prove the convergence of this iterated estimator and
+and name it ``Iterated Linear Least Squares Estimator'' (ILLE).
+As the translog price index is not a fixed regressor
+but depends on stochastic estimated coefficients,
+the standard coefficient variance covariance matrix
+obtained from the regression in the last iteration is not appropriate.
+\citet{blundell99} derive the asymptotic variance covariance matrix
+of the estimated coefficients:
+\begin{equation}
+\widehat{ \VAR } ( \hat{ \theta } )
+= \hat{ J }^{-1}
+   \left( \hat{ \Sigma } \otimes
+   \left( G( \hat{ \theta } )' G( \hat{ \theta } ) \right) \right)
+   \left( \hat{ J }' \right)^{-1}
+\end{equation}
+where
+\begin{equation}
+\hat{ J } = \left( I_N \otimes G( \hat{ \theta } )' \right)
+   \nabla ( \hat{ \theta } )
+\end{equation}
+$\theta$ is a vector of all $\alpha$, $\beta$ and $\gamma$ coefficients,
+$\hat{ \Sigma }$ is the residual covariance matrix,
+$I$ is an identity matrix,
+$G ( \hat{ \theta } )$ is the matrix of the constructed regressors
+for a (conditional) linear estimation given the estimated coefficients,
+and $\nabla ( \hat{ \theta } )$ =
+$\partial ( [ I_N \otimes G( \hat{ \theta } ) ] \hat{ \theta} ) /
+\partial \theta'$
+is the Jacobian matrix of the expenditure shares
+with respect to coefficients evaluated at their estimated values.
+
+If argument \code{method} of \code{aidsEst} is \code{"IL"},
+this function estimates the non-linear AIDS
+by the ``Iterated Linear Least Squares Estimator'' (ILLE).
+<<>>=
+aidsResult <- aidsEst( priceNames, shareNames, "xFood",
+   data = Blanciforti86, method = "IL" )
+@
+In this case,
+argument \code{priceIndex} can be used to specify the price index
+that is used for the LA-AIDS estimation to obtain initial values
+(see section~\ref{sec:using-aidsEst}).
+However, the results of the ILLE estimation
+generally do not depend on the choice
+of the price index to obtain the initial values.
+
+<<echo=FALSE,results=hide>>=
+options( digits = 7 )
+@
+
+
+\section{Consistency with economic theory}
+
+Microeconomic household theory requires
+several properties of the expenditure function (\ref{eq:expenditure})
+and the corresponding demand functions (\ref{eq:marshallian}).
+For the AIDS, the adding-up conditions~(\ref{eq:adding-up})
+are automatically fulfilled,
+while the homogeneity~(\ref{eq:homogeneity})
+and symmetry~(\ref{eq:symmetry}) restrictions
+can be imposed globally by parameter restrictions.
+However, the monotonicity and concavity properties
+generally cannot be imposed by parameter restrictions,
+but can be checked after the estimation.
+
+
+\subsection{Adding-up, homogeneity and symmetry}
+\label{sec:est-consist}
+
+The following commands verify
+that the adding-up conditions~(\ref{eq:adding-up})
+are (automatically) fulfilled.
+<<>>=
+all.equal( sum( coef( aidsResult )$alpha ), 1 )
+all.equal( sum( coef( aidsResult )$beta ), 0 )
+all.equal( colSums( coef( aidsResult )$gamma ), rep( 0, 4 ),
+   check.attributes = FALSE )
+@
+
+By default, \code{aidsEst} imposes parameter restrictions
+to ensure homogeneity~(\ref{eq:homogeneity})
+and symmetry~(\ref{eq:symmetry}).
+The following checks verify
+that these conditions are fulfilled.
+<<>>=
+all.equal( rowSums( coef( aidsResult )$gamma ), rep( 0, 4 ),
+   check.attributes = FALSE )
+isSymmetric( coef( aidsResult )$gamma, tol = 1e-10, check.attributes = FALSE )
+@
+
+If the user does not want to impose homogeneity and/\hz{}or symmetry,
+she can set the optional arguments \code{hom} and/\hz{}or \code{sym}
+to \code{FALSE}.
+Since symmetry~(\ref{eq:symmetry})
+together with adding-up~(\ref{eq:adding-up})
+implies homogeneity~(\ref{eq:homogeneity}),
+it is not possible to impose symmetry without homogeneity.
+However, the AIDS can be estimated
+with homogeneity
+but without symmetry imposed.
+<<>>=
+aidsResultHom <- aidsEst( priceNames, shareNames, "xFood", data = Blanciforti86,
+   method = "IL", sym = FALSE )
+isSymmetric( coef( aidsResultHom )$gamma, tol = 1e-10, check.attributes = FALSE )
+@
+In this case,
+the symmetry conditions~(\ref{eq:symmetry}) are no longer fulfilled.
+These restrictions can be statistically tested,
+for instance by a Likelihood-Ratio test
+that is implemented in the \code{lrtest} method
+for objects of class \code{aidsEst}.
+<<>>=
+lrtest( aidsResult, aidsResultHom )
+@
+The LR test does not reject the Null hypothesis.
+Hence, we can conclude that our model and data set do not contradict
+the symmetry condition.
+
+Now, we can additionally relax the homogeneity restriction.
+<<>>=
+aidsResultUnr <- aidsEst( priceNames, shareNames, "xFood", data = Blanciforti86,
+   method = "IL", hom = FALSE, sym = FALSE )
+all.equal( rowSums( coef( aidsResultUnr )$gamma ), rep( 0, 4 ),
+   check.attributes = FALSE )
+@
+In this case,
+also the homogeneity conditions~(\ref{eq:homogeneity})
+are no longer fulfilled.
+Again, we can statistically test these restrictions.
+<<>>=
+lrtest( aidsResultHom, aidsResultUnr )
+@
+This Null hypothesis is clearly rejected.
+Thus, we can conclude that our model and data set contradict
+the homogeneity condition.
+
+It is also possible to test the symmetry and homogeneity restrictions
+simultaneously.
+<<>>=
+lrtest( aidsResult, aidsResultUnr )
+@
+Also this Null hypothesis is clearly rejected
+meaning that homogeneity and symmetry are not simultaneously satisfied.
+
+
+\subsection{Monotonicity}
+\label{sec:monotonicity}
+
+The ``monotonicity'' condition says
+that the expenditure function must be monotonically increasing in prices,
+which implies that its first derivatives with respect to prices
+are always non-negative.
+According to Shepard's Lemma,
+this can be checked by testing whether the quantities and expenditure shares
+in equations (\ref{eq:marshallian}) and
+(\ref{eq:marshall-share}) are non-negative.
+The check for monotonicity of the AIDS is implemented
+in function \code{aidsMono}.
+It is generally called by
+<<eval=FALSE>>=
+aidsMono( priceNames, totExpName, coef, data )
+@
+There are four mandatory arguments:
+\code{priceNames} must be a vector of strings
+that specifies the variable names of the prices,
+\code{totExpName} must be a string
+that specifies the variable name of total expenditure,
+\code{coef} must be a list
+that contains the coefficients,
+i.e.\ a scalar \code{alpha0}, a vector \code{alpha},
+a vector \code{beta}, and a matrix \code{gamma}, and
+\code{data} must be a data frame
+that contains the prices and total expenditure.
+
+We demonstrate the usage of \code{aidsMono} by checking
+whether the monotonicity condition is fulfilled
+in the AIDS model estimated in Section~\ref{sec:ille}.
+<<>>=
+aidsMono( priceNames, "xFood", coef = coef( aidsResult ),
+   data = Blanciforti86 )
+@
+The output shows that monotonicity is satisfied for all goods
+at all observations.
+
+Function \code{aidsMono} can check also LA-AIDS models.
+Although it does the same checks as for the AIDS
+(non-negativity of the expenditure shares),
+the results have to be interpreted differently,
+because no expenditure function for the LA-AIDS exists.
+Argument \code{priceIndex} can be used to specify a price index
+other than the translog index.
+If the Paasche, (simplified) Laspeyres, or Tornqvist index is specified,
+arguments \code{basePrices} and/or \code{baseShares}
+have to be used to specify the base prices and base expenditure shares,
+respectively.
+<<>>=
+aidsMono( priceNames, "xFood", coef = coef( laaidsResult ),
+   data = Blanciforti86, priceIndex = "S" )
+aidsMono( priceNames, "xFood", coef = coef( laaidsResultT ),
+   data = Blanciforti86, priceIndex = "T",
+   basePrices = laaidsResultT$basePrices,
+   baseShares = laaidsResultT$baseShares )
+@
+If argument \code{priceIndex} specifies a price index of the LA-AIDS,
+``fitted'' values are used for current and lagged expenditure shares
+in these price indices
+(see Section~\ref{sec:aidsCalc}).
+However, if the user wants to use any other weights for the calculation
+of the price indices (e.g.\ observed expenditure shares),
+she can set argument \code{priceIndex} to a numeric vector
+containing the log values of the desired price index
+(e.g.\ the price index used in the estimation).
+<<>>=
+aidsMono( priceNames, "xFood", coef = coef( laaidsResult ),
+   data = Blanciforti86, priceIndex = laaidsResult$lnp )
+aidsMono( priceNames, "xFood", coef = coef( laaidsResultT ),
+   data = Blanciforti86, priceIndex = laaidsResultT$lnp )
+@
+
+
+\subsection{Concavity}
+\label{sec:concavity}
+
+The ``concavity'' condition guarantees
+that there is a unique solution to the utility maximization problem.
+The expenditure function (\ref{eq:expenditure}) is concave,
+if its Hessian matrix
+--- which in this context is also called ``Slutsky substitution matrix'' ---
+is negative semidefinite.
+The $i$,$j$th element of the substitution matrix is:
+\begin{equation}
+\frac{ \partial e( p_t , U_t )^2 }{ \partial p_{it} \partial p_{jt} }
+= \frac{ m_t }{ p_{it} p_{jt} } c_{ijt}
+\label{eq:hessian}
+\end{equation}
+where
+\begin{equation}
+c_{ijt} = \gamma_{ij} + \beta_i \beta_j \ln \left( m_t / P_t \right)
++ s_{it} s_{jt} - \delta_{ij} s_{it}
+\label{eq:c-matrix}
+\end{equation}
+and $\delta_{ij}$ is Kronecker delta with
+$\delta_{ij} = 1$ $\forall \, i = j$ and
+$\delta_{ij} = 0$ $\forall \, i \neq j$.
+To check the concavity of the expenditure function (\ref{eq:expenditure}),
+it is sufficient to test for negative semidefiniteness
+of the matrices $C_t=\left[c_{ijt}\right]$,
+because it is a necessary and sufficient condition
+for the negative semidefiniteness of the Slutsky substitution matrix
+\citep[p.~316]{deaton80a}.
+The check for concavity of the AIDS is implemented
+in function \code{aidsConcav}.
+It is generally called by
+<<eval=FALSE>>=
+aidsConcav( priceNames, totExpName, coef, data )
+@
+The four mandatory arguments
+\code{priceNames}, \code{totExpName}, \code{coef}, and \code{data}
+are identical to the mandatory arguments of function \code{aidsMono}.
+We demonstrate the usage of \code{aidsConcav} by checking
+whether the concavity condition is fulfilled
+in the AIDS model estimated in Section~\ref{sec:ille}.
+<<>>=
+aidsConcav( priceNames, "xFood", coef = coef( aidsResult ),
+   data = Blanciforti86 )
+@
+The output shows that concavity is satisfied not at a single observation.
+By default, \code{aidsConcav} uses fitted expenditure shares
+for $s_{it}$ and $s_{jt}$ in (\ref{eq:c-matrix}).
+However, if the user wants to use observed expenditure shares
+($w_{it}$, $w_{jt}$) instead,
+she can use the optional argument \code{shareNames}
+to specify the variable names of the observed expenditure shares.
+<<>>=
+aidsConcav( priceNames, "xFood", coef = coef( aidsResult ),
+   data = Blanciforti86, shareNames = shareNames )
+@
+However, this does not change the result:
+concavity is satisfied not at a single observation.
+
+If the symmetry condition of an AIDS model is not fulfilled,
+it is not possible to check
+whether its expenditure function is concave,
+because no corresponding expenditure function exists.
+Similarly, no expenditure function of the LA-AIDS exists.
+However, if the $\gamma$ matrix of an LA-AIDS is symmetric,
+\code{aidsConcav} can check of course
+whether the expenditure function of an AIDS
+with coefficients of this LA-AIDS would be concave.
+Since the LA-AIDS does not have the coefficient $\alpha_0$,
+the user has to specify a value for this coefficient.
+<<>>=
+laaidsCoef <- coef( laaidsResult )
+laaidsCoef$alpha0 <- 1
+aidsConcav( priceNames, "xFood", coef = laaidsCoef,
+   data = Blanciforti86 )
+@
+However, it is questionable if this makes much sense.
+
+
+\subsection{All conditions}
+
+Since it can be cumbersome to check for all conditions separately,
+a wrapper function \code{aidsConsist}
+that checks all conditions simultaneously
+is included in the \pkg{micEconAids} package.
+It is generally called by
+<<eval=FALSE>>=
+aidsConsist( priceNames, totExpName, coef, data )
+@
+where the four mandatory arguments are identical
+to the mandatory arguments of \code{aidsMono} and \code{aidsConcav}.
+Furthermore, it has the optional arguments
+\code{priceIndex}, \code{basePrices}, and \code{baseShares}
+that are passed to \code{aidsMono}
+as well as the optional argument \code{shareNames}
+that is passed to \code{aidsConcav}.
+We demonstrate the usage of \code{aidsConsist}
+with the AIDS model estimated in Section~\ref{sec:ille}.
+<<>>=
+aidsConsist( priceNames, "xFood", coef = coef( aidsResult ),
+   data = Blanciforti86 )
+@
+
+As noted above, checking concavity of the expenditure function requires
+that the expenditure function of the model exists.
+Therefore, \code{aidsConsist} checks the concavity condition,
+only if the symmetry condition is fulfilled and
+the translog price index is used.
+% <<>>=
+% aidsConsist( priceNames, "xFood", coef = coef( laaidsResultT ),
+%    data = Blanciforti86, priceIndex = "T",
+%    basePrices = laaidsResultT$basePrices,
+%    baseShares = laaidsResultT$baseShares )
+% @
+
+Checking of theoretical consistency of an estimated AIDS or LA-AIDS model
+can be further simplified by the \code{checkConsist} method
+for objects of class \code{aidsEst}.
+This method extracts the required elements from an object
+returned by \code{aidsEst} and passes them to \code{aidsTestConsist}.
+The following command does the same as the previous command.
+<<>>=
+aidsResultConsist <- checkConsist( aidsResult )
+@
+The \code{checkConsist} method for objects of class \code{aidsEst}
+has an optional argument \code{observedShares}.
+It determines
+whether fitted or observed expenditure shares are
+used in the price index of the LA-AIDS to check monotonicity
+and in the calculation of the substitution matrix to check concavity.
+It is \code{FALSE} by default,
+which means that fitted expenditure shares are used.
+If this argument is \code{TRUE},
+observed expenditure shares are used.
+<<>>=
+aidsResultConsistObs <- checkConsist( aidsResult, observedShares = TRUE )
+@
+
+
+
+\section{Demand elasticities}
+
+As the parameters of most demand models like the AIDS do not have
+a straight-forward interpretation
+and slopes of demand curves depend on arbitrary units of measurements,
+economists present their results often in terms of elasticities.
+
+
+\subsection{Elasticities of the AIDS}
+\label{sec:elasticities}
+
+The expenditure (income) elasticities ($\eta_i$) and
+Marshallian (uncompensated) price elasticities ($\Theta_{ij}$)
+of the AIDS can be derived from the Marshallian (uncompensated)
+demand functions~(\ref{eq:marshall-share}):%
+\footnote{
+In this section we omit the indicator of time~($t$) for convenience.
+}
+\begin{align}
+\eta_i & = \frac{ \partial x_i }{ \partial m } \frac{ m }{ x_i }
+= 1 + \frac{ \beta_i }{ s_i }
+\label{eq:ela-income}\\
+\Theta_{ij} & = \frac{ \partial x_i }{ \partial p_j } \frac{ p_j }{ x_i }
+   = - \delta_{ij} + \frac{ \gamma_{ij} }{ s_i }
+   - \frac{ \beta_i }{ s_i }
+   \left( \alpha_j + \sum_k \gamma_{kj} \ln p_k \right)
+\label{eq:ela-marshall}
+\end{align}
+\citep[p.~400]{anderson83}.
+Hicksian (compensated) price elasticities ($\Theta_{ij}^*$)
+of the AIDS can be derived from the Hicksian (compensated)
+demand functions
+or by inserting the expenditure elasticity and Marshallian price elasticity
+in the Slutsky equation \citep[p.~45]{deaton80b}:
+\begin{equation}
+\Theta_{ij}^* = \Theta_{ij} + \eta_i * s_j
+\label{eq:ela-hicks}
+\end{equation}
+
+<<echo=FALSE,results=hide>>=
+options( digits = 3)
+@
+
+Function \code{aidsElas} can be used to calculate demand elasticities
+of the AIDS by (\ref{eq:ela-income}), (\ref{eq:ela-marshall}),
+and (\ref{eq:ela-hicks}).
+It has one mandatory argument \code{coef};
+the most important optional arguments are
+\code{prices}, \code{shares}, and \code{totExp}.
+<<eval=FALSE>>=
+aidsElas( coef, prices = NULL, shares = NULL, totExp = NULL )
+@
+Argument \code{coef} is a list that contains the coefficients
+(such as argument \code{coef} of \code{aidsMono});
+\code{prices} and \code{shares} must be numerical vectors
+that contain the prices and expenditure shares, respectively,
+and \code{totExp} must be the total expenditure,
+at which the elasticities should be calculated.
+If the optional argument \code{shares} is provided,
+these values are used as expenditure shares $s_i$
+in~\ref{eq:ela-income} and~\ref{eq:ela-marshall};
+otherwise, fitted expenditure shares are calculated
+with (\ref{eq:pi-translog}) and (\ref{eq:marshall-share})
+using the provided coefficients, prices, and total expenditure.
+In the first case, argument \code{totExp} is not required,
+because total expenditure is not needed for these calculations.
+The usage of \code{aidsElas} is demonstrated
+by calculating the demand elasticities of the AIDS
+at sample mean values.
+<<>>=
+pMeans <- colMeans( Blanciforti86[ , priceNames ] )
+wMeans <- colMeans( Blanciforti86[ , shareNames ] )
+aidsResultElas <- aidsElas( coef( aidsResult ), prices = pMeans,
+   shares = wMeans )
+print( aidsResultElas )
+@
+First, the expenditure elasticities,
+then the Marshallian (uncompensated) prices elasticities,
+and finally the Hicksian (compensated) price elasticities
+are printed.
+
+Calculating these elasticities not at observed
+but at fitted expenditure shares
+has only a minor effect on the returned values.
+<<>>=
+xtMean <- mean( Blanciforti86[ , "xFood" ] )
+aidsResultElas2 <- aidsElas( coef( aidsResult ), prices = pMeans,
+   totExp = xtMean )
+all.equal( aidsResultElas, aidsResultElas2 )
+@
+
+A special feature of \pkg{aidsElas} is
+the approximate calculation of the covariance matrix
+of the elasticities.
+This calculation is based on the formula of \citet[p.~258]{klein53},
+which is also known as ``delta method.''
+\begin{equation}
+\widehat{\VAR} ( \Psi ( \hat{ \theta } ) )
+= \nabla^* ( \hat{ \theta } )
+   \; \widehat{\VAR} ( \hat{ \theta } ) \;
+   \nabla^* ( \hat{ \theta } ) '
+\end{equation}
+where
+$\Psi( \hat{ \theta} )$ is a vector of all demand elasticities
+($\eta$, $\Theta$, $\Theta^*$) and
+$\nabla^* ( \hat{ \theta } )$  =
+$\partial \Psi ( \hat{ \theta} ) / \partial \theta'$
+is the Jacobian matrix of the demand elasticities
+with respect to coefficients evaluated at their estimated values.
+The covariance matrix of the coefficients,
+which is required for calculating the covariance matrix of the elasticities,
+can be specified by the optional argument \code{coefCov}.
+Furthermore, the optional argument \code{df} can be used
+to specify the degrees of freedom
+for calculating the marginal levels of significance (``P values'')
+of (approximate) $t$ tests of the elasticities.
+Summary statistics of the elasticities can be obtained
+by applying the \code{summary} method to an object
+returned by \code{aidsElas}.
+<<>>=
+aidsResultElasCov <- aidsElas( coef( aidsResult ), prices = pMeans,
+   totExp = xtMean, coefCov = vcov( aidsResult ),
+   df = df.residual( aidsResult ) )
+summary( aidsResultElasCov )
+@
+The row names indicate the elasticities,
+where ``\code{Ex}'' indicates expenditure (income) elasticities,
+``\code{Eh}'' indicates Hicksian (compensated) price elasticities
+and ``\code{Em}'' indicates Marshallian (uncompensated) price elasticities.
+
+Calculating the demand elasticities of an estimated AIDS model
+can be simplified by using
+the \code{elas} method for objects of class \code{aidsEst}.
+This is a convenient tool
+that extracts the required elements from the provided object
+and passes them to \code{aidsElas}.
+<<>>=
+aidsResultElasCov2 <- elas( aidsResult )
+all.equal( aidsResultElasCov, aidsResultElasCov2 )
+@
+The \code{elas} method for objects of class \code{aidsEst}
+has an optional argument \code{observedShares}.
+It determines
+whether fitted or observed expenditure shares are
+used in the calculations of the price indices.
+It is \code{FALSE} by default,
+which means that fitted expenditure shares are used.
+If this argument is \code{TRUE},
+observed expenditure shares are used.
+<<>>=
+aidsResultElasCovObs <- elas( aidsResult, observedShares = TRUE )
+@
+
+
+\subsection{Elasticities of the LA-AIDS with Stone price index}
+\label{sec:laaids-elasticities}
+
+Several authors have shown
+that the estimated parameters of the LA-AIDS are not necessarily
+close to the AIDS parameters.
+Therefore, the formulas to calculate the demand elasticities
+of the (non-linear) AIDS
+(\ref{eq:ela-income}, \ref{eq:ela-marshall}, \ref{eq:ela-hicks})
+are generally not appropriate to calculate demand elasticities
+based on parameters from the LA-AIDS.
+To overcome this problem, some scholars have derived special formulas
+to calculate demand elasticities of the LA-AIDS with the Stone price index.
+Generally, the Marshallian price elasticities and expenditure elasticities
+of the LA-AIDS (and also of the AIDS) can be obtained by
+\citep[p.~443]{green90}:
+\begin{align}
+\Theta_{ij} & = -\delta_{ij} + \frac{ \gamma_{ij}^S }{ w_i }
+- \frac{ \beta_i^S }{ w_i } \frac{ \partial \ln P^S }{ \partial \ln p_j }
+\label{eq:ela-marshall-laaids}\\
+\eta_i & = 1 + \frac{ \beta_i }{ w_i }
+\left( 1 - \frac{ \partial \ln P^S }{ \partial \ln x } \right)
+\label{eq:ela-income-laaids}
+\end{align}
+The differences between the various formulas for elasticities
+that several authors have suggested for the LA-AIDS
+mainly come from the different treatment of
+$\partial \ln P^S / \partial \ln p_j$ \citep[p.~443]{green90}
+and $\partial \ln P^S / \partial \ln x$.
+
+\citet{green90} elaborated $\partial \ln P^S / \partial \ln p_j$
+and $\partial \ln P^S / \partial \ln x$ in detail
+and proposed following formulas:
+\begin{align}
+\Theta_{ij}^{GA} & = - \delta_{ij} + \frac{ \gamma_{ij}^S }{ w_i }
+- \frac{ \beta_i^S }{ w_i } \left( w_j
++ \sum_k w_k \ln p_k \left( \Theta_{kj}^{GA} + \delta_{kj} \right) \right)
+\label{eq:ela-marshall-ga}\\
+\eta_i^{GA} & = 1 + \frac{ \beta_i^S }{ w_i }
+\left( 1 - \sum_j w_j \ln p_j \left( \eta_j^{GA} - 1 \right) \right)
+\label{eq:ela-income-ga}
+\end{align}
+The drawback of these formulas is
+that $\Theta_{ij}^{GA}$ and $\eta_i^{GA}$ appear
+also on the right-hand side,
+which complicates their calculation.
+However, \citet[p.~784]{buse94} derives formulas
+that are equivalent to (\ref{eq:ela-marshall-ga}) and (\ref{eq:ela-income-ga})
+but do not have the drawback of having $\Theta_{ij}$ or $\eta_i$
+on the right-hand side:%
+\footnote{
+\citet[p.~785]{buse94} calculates the expenditure elasticities by
+$\eta_i^{B1} = 1 + \frac{ \beta_i^S }{ w_i }
+\left( 1 - \frac{ \sum_k \beta_k^* \ln p_k }
+{ 1 + \sum_k \beta_k^S \ln p_k } \right)$.
+This formula is identical to equation (\ref{eq:ela-income-b1}).
+}
+\begin{align}
+\Theta_{ij}^{B1} & = - \delta_{ij}
++ \frac{ \gamma_{ij}^S }{ w_i } - \frac{ \beta_i^S }{ w_i }
+\left( \frac{ w_j + \sum_k \gamma_{kj}^S \ln p_k }
+   { 1 + \sum_k \beta_k^S \ln p_k } \right)
+\label{eq:ela-marshall-b1}\\
+\eta_i^{B1} & = 1 + \frac{ \beta_i^S }
+   { w_i \left( 1 + \sum_k \beta_k^S \ln p_k \right)}
+\label{eq:ela-income-b1}
+\end{align}
+
+The function \code{aidsElas} can calculate demand elasticities
+not only for the AIDS, but also for the LA-AIDS.
+By default \code{aidsElas} uses formulas
+(\ref{eq:pi-translog}) and (\ref{eq:marshall-share})
+to calculate fitted expenditure shares
+and formulas
+(\ref{eq:ela-income}), (\ref{eq:ela-marshall}), and (\ref{eq:ela-hicks})
+to calculate demand elasticities.
+However, the optional arguments \code{priceIndex} and \code{method}
+can be used to specify different price indices and different formulas
+for demand elasticities that are more suitable for the LA-AIDS.
+For instance,
+if argument \code{priceIndex} is \code{"S"}
+and argument \code{method} is \code{"B1"} or \code{"GA"},
+fitted shares are calculated with the Stone price index
+and the first set of \citeauthor{buse94}'s \citeyear{buse94} formulas
+(\ref{eq:ela-marshall-b1}, \ref{eq:ela-income-b1}),
+which are equivalent to the formulas of \citet{green90}
+(\ref{eq:ela-marshall-ga}, \ref{eq:ela-income-ga}),
+are applied to calculate demand elasticities.
+<<>>=
+laaidsResultElasB1 <- aidsElas( coef( laaidsResult ),
+   prices = pMeans, totExp = xtMean, method = "B1",
+   priceIndex = "S" )
+@
+Again, this command can be simplified
+by using the \code{elas} method for objects of class \code{aidsEst}.
+<<>>=
+laaidsResultElasB1a <- elas( laaidsResult, method = "B1" )
+all.equal( laaidsResultElasB1, laaidsResultElasB1a )
+@
+
+Alternatively, \citet[p.~784]{buse94} treats
+$\partial \ln P^S / \partial p_j$ as an approximation of
+$\partial \ln P / \partial p_j$
+and replaced $w_k$ in $\partial \ln w_k / \partial \ln p_j$
+by the right hand-side of the share equation~(\ref{eq:demand-observed})
+to get the following formulas:
+\begin{align}
+\Theta_{ij}^{B2} & = - \delta_{ij}
++ \frac{ \gamma_{ij}^S  }{ w_i } - \frac{ \beta_i^S }{ w_i }
+\left( w_j + \sum_k \gamma_{kj}^S \ln p_k
+- \sum_k \beta_k^S \ln p_k
+   \left( \alpha_j + \sum_l \gamma_{lj}^S \ln p_l \right)
+\right)
+\label{eq:ela-marshall-b2}\\
+\eta_i^{B2} & = 1 + \frac{ \beta_i^S }{ w_i }
+\left( 1 - \sum_k \beta_k^S \ln p_k \right)
+\label{eq:ela-income-b2}
+\end{align}
+If argument \code{method} of \code{aidsElas} is set to \code{"B2"},
+\citeauthor{buse94}'s \citeyear{buse94} second set of formulas
+(\ref{eq:ela-marshall-b1}, \ref{eq:ela-income-b1})
+is used to calculate the elasticities.
+<<>>=
+laaidsResultElasB2 <- elas( laaidsResult, method = "B2" )
+@
+
+\citet{goddard83} and \citet{chalfant87}%
+\footnote{
+There is some disagreement in the literature
+who was the first who applied this formula,
+since \citet{goddard83} applied this formula to a LA-AIDS with Paasche index
+and \citet{chalfant87} was the first who applied this formula to the LA-AIDS
+with Stone index.
+}
+assume the budget shares to be independent of prices
+and derive the following formula:
+\begin{equation}
+\Theta_{ij}^{Go}
+= - \delta_{ij} + \frac{ \gamma_{ij}^S }{ w_i }
+- \frac{ \beta_i^S w_j }{ w_i }
+\label{eq:ela-marshall-go}
+\end{equation}
+Assuming that the budget shares are independent of total expenditure,
+one gets the original formula for expenditure elasticities in the AIDS
+(\ref{eq:ela-income}).
+If \code{aidsElas} is called with argument \code{method}
+equal to \code{"Go"} or \code{"Ch"},
+the elasticities are calculated
+with the formulas of \citet{goddard83} and \citet{chalfant87}
+(\ref{eq:ela-marshall-go}, \ref{eq:ela-income}).
+<<>>=
+laaidsResultElasGo <- elas( laaidsResult, method = "Go" )
+@
+
+\citet{eales88} calculate demand elasticities of the LA-AIDS by
+\begin{equation}
+\Theta_{ij}^{EU} = - \delta_{ij} + \frac{ \gamma_{ij}^S }{ w_i }
+\label{eq:ela-marshall-eu}
+\end{equation}
+This formula is correct only in the special cases
+if preferences are homothetic $( \beta_i=0 \, \forall \, i )$
+or if the Stone price index $P^S$ is independent of individual prices
+\citep[p.~443]{green90}.
+If argument \code{method} of \code{aidsElas} is \code{"EU"},
+the formula of \citeauthor{eales88}
+(\ref{eq:ela-marshall-eu})
+is used to calculate the Marshallian price elasticities,
+while the expenditure elasticities are calculated
+by equation (\ref{eq:ela-income}).
+<<>>=
+laaidsResultElasEU <- elas( laaidsResult, method = "EU" )
+@
+
+When all prices are unity \citep[p.~784]{buse94}
+or in the case of (imposed) homogeneity
+when all prices are equal,
+$\Theta_{ij}^{GA,B1}$, $\Theta_{ij}^{B2}$ and $\Theta_{ij}^{GC}$
+are identical.
+The same holds for $\eta_i$, $\eta_i^{GA,B1}$, and~$\eta_i^{B2}$.
+
+Currently, \code{aidsEla} can calculate the covariance matrix
+only for elasticities
+that are calculated by the formulas for the non-linear AIDS model,
+i.e.~(\ref{eq:ela-income}), (\ref{eq:ela-marshall}), and~(\ref{eq:ela-hicks}).
+
+
+\subsection{Elasticities of the LA-AIDS with alternative price indices}
+\label{sec:laaids-ela-other}
+
+The formulas for calculating demand elasticities of the LA-AIDS model
+with the Stone price index are not necessarily suitable
+for LA-AIDS models with alternative price indices.
+One exception is the approach of \citet{eales88},
+i.e.~(\ref{eq:ela-marshall-eu}) and~(\ref{eq:ela-income}).
+Their formulas ignore any connection between the price index
+and prices or total expenditure.
+Therefore, this approach yields the same formulas for all price indices.
+If argument \code{method} is \code{"EU"},
+\code{aidsElas} uses formulas~(\ref{eq:ela-marshall-eu})
+and~(\ref{eq:ela-income})
+no matter which price index is specified by argument
+\code{priceIndex}.
+Further approaches for calculating demand elasticities
+of LA-AIDS models with alternative price indices
+are presented in the following paragraphs.
+
+
+\subsubsection{Stone price index with lagged expenditure shares}
+
+Demand elasticities of the LA-AIDS model based on the Stone price index
+with lagged expenditure shares~(\ref{eq:pi-stone-lagged})
+can be calculated with the formulas derived for the LA-AIDS model
+based on the Stone price index with current expenditure shares %(\ref{eq:pi-stone})
+(see Section~\ref{sec:laaids-elasticities}).
+This is because
+demand elasticities of static models indicate
+variations between two equilibria and
+in an equilibrium expenditure shares become steady
+($w_{it} = w_{it-1}$)
+so that the two Stone price indices become equivalent.
+Therefore, \code{aidsEla} uses
+formulas~(\ref{eq:ela-marshall-b1}) to~(\ref{eq:ela-marshall-eu})
+not only if argument \code{priceIndex} is \code{"S"},
+but also if it is \code{"SL"}.
+
+
+\subsubsection{Paasche price index}
+
+Formulas for calculating demand elasticities of the LA-AIDS model
+with Paasche price index~(\ref{eq:pi-paasche})
+can be derived in a similar way as for the model with Stone price index.
+\citeauthor{buse94}'s \citeyear{buse94} first approach
+that leads to~(\ref{eq:ela-marshall-b1}) and~(\ref{eq:ela-income-b1})
+for the LA-AIDS with Stone price index
+yields the following formulas for the LA-AIDS with Paasche price index.
+\begin{align}
+\Theta_{ij}^{B1,P} & = - \delta_{ij}
++ \frac{ \gamma_{ij}^P }{ w_i } - \frac{ \beta_i^P }{ w_i }
+\left( \frac{ w_j + \sum_k \gamma_{kj}^P \ln \frac{p_k}{p_{k0}} }
+   { 1 + \sum_k \beta_k^P \ln \frac{p_k}{p_{k0}} } \right)
+\label{eq:ela-marshall-b1-paasche}\\
+\eta_i^{B1,P} & = 1 + \frac{ \beta_i^P }
+   { w_i \left( 1 + \sum_k \beta_k^P \ln \frac{p_k}{p_{k0}} \right)}
+\label{eq:ela-income-b1-paasche}
+\end{align}
+Function \code{aidsElas} calculates demand elasticities with these formulas,
+if argument \code{priceIndex} is \code{"P"}
+and argument \code{method} is \code{"B1"} or \code{"GA"}.
+
+Formulas for the LA-AIDS with Paasche price index
+that correspond to~(\ref{eq:ela-marshall-b2}) and~(\ref{eq:ela-income-b2})
+can be obtained in a similar way.
+\begin{align}
+\Theta_{ij}^{B2,P} & = - \delta_{ij}
++ \frac{ \gamma_{ij}^P  }{ w_i } - \frac{ \beta_i^P }{ w_i }
+\left( w_j + \sum_k \gamma_{kj}^P \ln \frac{p_k}{p_{k0}}
+- \sum_k \beta_k^P \ln \frac{p_k}{p_{k0}}
+   \left( \alpha_j + \sum_l \gamma_{lj}^P \ln p_l \right)
+\right)
+\label{eq:ela-marshall-b2-paasche}\\
+\eta_i^{B2,P} & = 1 + \frac{ \beta_i^P }{ w_i }
+\left( 1 - \sum_k \beta_k^P \ln \frac{p_k}{p_{k0}} \right)
+\label{eq:ela-income-b2-paasche}
+\end{align}
+These formulas are used by \code{aidsElas},
+if argument \code{priceIndex} is \code{"P"}
+and argument \code{method} is \code{"B2"}.
+
+If argument \code{priceIndex} is \code{"P"}
+and argument \code{method} is \code{"Go"} or \code{"Ch"}
+\code{aidsElas} uses the same formulas as for the LA-AIDS with
+Stone price index,
+i.e.~(\ref{eq:ela-marshall-go}) and~(\ref{eq:ela-income}).
+
+
+\subsubsection{Laspeyres price indices}
+
+Since the Laspeyres price index~(\ref{eq:pi-laspeyres})
+does not include current expenditure shares,
+the approaches of \citet{buse94} and \citet{goddard83},
+which yield formulas~(\ref{eq:ela-marshall-b1}) to~(\ref{eq:ela-marshall-go})
+for the LA-AIDS model with Stone price index,
+lead all to the same result for the LA-AIDS model with Laspeyres price index.
+\begin{equation}
+\Theta_{ij}^{B1/B2/Go,L}
+= - \delta_{ij} + \frac{ \gamma_{ij}^L }{ w_i }
+- \frac{ \beta_i^L }{ w_i } w_{j0}
+\label{eq:ela-marshall-laspeyres}
+\end{equation}
+The formula for calculating expenditure elasticities is identical
+to the formula for the original AIDS~(\ref{eq:ela-income}).
+The derivation of demand elasticities for the LA-AIDS model
+with the simplified Laspeyres price index~(\ref{eq:pi-laspeyres-simplified})
+leads to the same formulas as for the model
+with the non-simplified version of this price index.
+
+Function \code{aidsElas} uses these formulas,
+if its argument \code{priceIndex} is \code{"L"} or \code{"Ls"}
+and its argument \code{method} is \code{"B1"}, \code{"GA"}, \code{"B2"},
+\code{"Go"}, or \code{"Ch"}.
+
+
+\subsubsection{Tornqvist price index}
+
+Formulas for calculating demand elasticities of the LA-AIDS model
+with Tornqvist price index~(\ref{eq:pi-tornqvist})
+can be derived in a similar way as for the models
+with Stone or Paasche price index.
+\citeauthor{buse94}'s \citeyear{buse94} first approach
+yields the following formulas.
+\begin{align}
+\Theta_{ij}^{B1,T} & = - \delta_{ij}
++ \frac{ \gamma_{ij}^T }{ w_i } - \frac{ \beta_i^T }{ 2 w_i }
+\left( \frac{ w_j + w_{j0} + \sum_k \gamma_{kj}^T \ln \frac{p_k}{p_{k0}} }
+   { 1 + \frac{1}{2} \sum_k \beta_k^T \ln \frac{p_k}{p_{k0}} } \right)
+\label{eq:ela-marshall-b1-tornqvist}\\
+\eta_i^{B1,T} & = 1 + \frac{ \beta_i^T }
+   { w_i \left( 1 + \frac{1}{2} \sum_k \beta_k^T \ln \frac{p_k}{p_{k0}} \right)}
+\label{eq:ela-income-b1-tornqvist}
+\end{align}
+Function \code{aidsElas} calculates demand elasticities with these formulas,
+if argument \code{priceIndex} is \code{"T"}
+and argument \code{method} is \code{"B1"} or \code{"GA"}.
+
+Formulas for the LA-AIDS with Tornqvist price index
+that correspond to~(\ref{eq:ela-marshall-b2}) and~(\ref{eq:ela-income-b2})
+can be obtained in a similar way.
+\begin{align}
+\Theta_{ij}^{B2,T} & = - \delta_{ij}
++ \frac{ \gamma_{ij}^T  }{ w_i } - \frac{ \beta_i^T }{ 2 w_i }
+\left( w_j + w_{j0} + \sum_k \gamma_{kj}^T \ln \frac{p_k}{p_{k0}}
+- \sum_k \beta_k^T \ln \frac{p_k}{p_{k0}}
+   \left( \alpha_j + \sum_l \gamma_{lj}^T \ln p_l \right)
+\right)
+\label{eq:ela-marshall-b2-tornqvist}\\
+\eta_i^{B2,T} & = 1 + \frac{ \beta_i^T }{ w_i }
+\left( 1 - \frac{1}{2} \sum_k \beta_k^T \ln \frac{p_k}{p_{k0}} \right)
+\label{eq:ela-income-b2-tornqvist}
+\end{align}
+These formulas are used by \code{aidsElas},
+if argument \code{priceIndex} is \code{"T"}
+and argument \code{method} is \code{"B2"}.
+
+\citeauthor{goddard83}'s \citeyear{goddard83} approach
+that leads to~(\ref{eq:ela-marshall-go})
+for the LA-AIDS with Stone price index
+yields following formula for the LA-AIDS with Tornqvist price index.
+\begin{equation}
+\Theta_{ij}^{Go,T} = - \delta_{ij}
++ \frac{ \gamma_{ij}^T  }{ w_i } - \frac{ \beta_i^T }{ 2 w_i }
+\left( w_j + w_{j0} \right)
+\label{eq:ela-marshall-go-tornqvist}
+\end{equation}
+The expenditure elasticities can be obtained
+with the same formula as for the original AIDS~(\ref{eq:ela-income}).
+If argument \code{priceIndex} is \code{"T"}
+and argument \code{method} is \code{"Go"} or \code{"Ch"},
+\code{aidsElas} uses these formulas for calculating demand elasticities.
+
+
+
+\section{Prediction of expenditure shares and demanded quantities}
+\label{sec:aidsCalc}
+
+In empirical demand analysis,
+it is often desirable to use an estimated demand model
+for predictions and simulations.
+In this section it is demonstrated how expenditure shares
+and demanded quantities can be predicted
+with the AIDS and LA-AIDS model.
+
+\subsection{Predictions with the AIDS}
+
+If prices, total expenditure, and the coefficients of the AIDS are given,
+demanded quantities and expenditure shares
+can easily be calculated with equations~(\ref{eq:marshallian}),
+(\ref{eq:pi-translog}), and (\ref{eq:marshall-share}).
+These calculations are implemented in function \code{aidsCalc}.
+It is generally called by
+<<eval=FALSE>>=
+aidsCalc( priceNames, totExpName, coef, data )
+@
+The four mandatory arguments
+\code{priceNames}, \code{totExpName}, \code{coef}, and \code{data}
+are identical to the mandatory arguments of function \code{aidsMono}
+(see Section~\ref{sec:monotonicity}).
+We demonstrate the usage of \code{aidsCalc}
+by using the AIDS model estimated in Section~\ref{sec:ille}
+to calculate the expected expenditure shares and quantities
+in the (hypothetical) case that the meat prices
+would have been 10\% higher than the actual prices.%
+\footnote{%
+For simplicity we assume
+that the increase of the meat prices has no effect
+on total food expenditure (\code{xFood}).
+}
+First we create a new data frame \code{B86new}
+with meat prices 10\% higher than in the original data set.
+<<>>=
+B86new <- Blanciforti86
+B86new$pFood1 <- B86new$pFood1 * 1.10
+@
+Now we use \code{aidsCalc} to calculate
+the demanded quantities and expenditure shares.
+Argument \code{coef} can be set to the object
+returned by the \code{coef} method for \code{aidsEst},
+because it has the same structure as required by this argument.
+<<>>=
+aidsMeat10 <- aidsCalc( priceNames, "xFood",
+   coef( aidsResult ), data = B86new )
+@
+Function \code{aidsCalc} returns a list with two elements:
+\code{shares} is a data frame that contains the calculated expenditure shares
+and \code{quant} is a data frame that contains the calculated quantities.
+A comparison of the simulated quantities and expenditure shares
+with the fitted values shows the effect of the hypothetical price increase.
+To save space, we compare only the quantities of the last year of the sample.
+<<>>=
+aidsMeat10$quant[ 32, ] / fitted( aidsResult )$quant[ 32, ]
+@
+<<echo=FALSE>>=
+quantRatio <- aidsMeat10$quant[ 32, ] / fitted( aidsResult )$quant[ 32, ]
+@
+A 10\% price increase for meat 
+would decrease the demand for meat (\code{q1}) by
+\Sexpr{round( 100 - 100 * quantRatio[1])}\%
+and the demand for fruits and vegetables (\code{q2}) by
+\Sexpr{round( 100 - 100 * quantRatio[2])}\%,
+while it would increase 
+the demand for cereals and bakery products (\code{q3}) by
+\Sexpr{round( 100 * quantRatio[3] - 100 )}\%
+and demand for miscellaneous foods (\code{q4}) by
+\Sexpr{round( 100 * quantRatio[4] - 100 )}\%.
+
+\subsection{Predictions with the LA-AIDS}
+
+While the calculation of demanded quantities and expenditure shares
+is straightforward for the AIDS,
+it is more complicated for the LA-AIDS with Stone price index,
+because all current expenditure shares appear also on the right-hand side
+of each demand equation.
+However, this system of equations can be solved for the expenditure shares
+by matrix algebra.
+\begin{equation}
+w_t = \left( I + \beta \ln p'_t \right)^{-1}
+   \left( \alpha + \gamma \ln p_t + \beta \ln m_t \right)
+\label{eq:calc-shares-stone}
+\end{equation}
+where $w_t = ( w_{1t} , w_{2t} , \ldots , w_{Nt} )'$,
+$p_t = ( p_{1t} , p_{2t} , \ldots , p_{Nt} )'$,
+$\alpha$ is the vector of all $\alpha_i$s,
+$\beta$ is the vector of all $\beta_i$s,
+$\gamma$ is the matrix of all $\gamma_{ij}$s,
+$I$ is an $N \times N$ identity matrix
+and $N$ is the number of goods.
+Function \code{aidsEst} uses this formula,
+if its argument \code{priceIndex} is \code{"S"}.
+<<>>=
+laaidsMeat10 <- aidsCalc( priceNames, "xFood",
+   coef( laaidsResult ), data = B86new, priceIndex = "S" )
+@
+
+The calculations of demanded quantities and expenditure shares
+from the LA-AIDS with Stone price index using lagged shares
+require (fitted) expenditure shares in the period before
+each observation for calculating the price index for this observation.
+Since (fitted) expenditure shares in the period before the first observation
+are usually unknown,
+these calculations are generally not feasible.
+As a workaround,
+\code{aidsCalc} calculates the expenditure shares for the first observation
+with~(\ref{eq:calc-shares-stone}).
+Then all following expenditure shares can be calculated
+consecutively by~(\ref{eq:pi-stone-lagged}) and~(\ref{eq:demand-stone}).
+Function \code{aidsEst} does these calculations,
+if its argument \code{priceIndex} is set to \code{"SL"}.
+<<>>=
+laaidsSLMeat10 <- aidsCalc( priceNames, "xFood",
+   coef( laaidsResultSL ), data = B86new, priceIndex = "SL" )
+@
+
+For the LA-AIDS with Laspeyres or simplified Laspeyres price index,
+the demanded quantities and expenditure shares
+can be easily calculated with~(\ref{eq:demand-stone}),
+(\ref{eq:pi-laspeyres}), and~(\ref{eq:pi-laspeyres-simplified}).
+The function \code{aidsEst} does these calculations
+if its argument \code{priceIndex} is set to \code{"L"} or \code{"Ls"},
+respectively.
+Since the estimated coefficients are valid only
+for a specific vector of base prices and base expenditure shares,
+the same values of $p_{k0}$ and $w_{k0}$
+that have been used to calculate the price index for the estimation
+have to be used for the calculation
+of the demanded quantities and expenditure shares;
+the base prices and base expenditure shares can be specified with
+arguments \code{basePrices} and \code{baseShares}, respectively.
+<<>>=
+laaidsLMeat10 <- aidsCalc( priceNames, "xFood",
+   coef( laaidsResultL ), data = B86new, priceIndex = "L",
+   basePrices = laaidsResultL$basePrices,
+   baseShares = laaidsResultL$baseShares )
+
+laaidsLsMeat10 <- aidsCalc( priceNames, "xFood",
+   coef( laaidsResultLs ), data = B86new, priceIndex = "Ls",
+   baseShares = laaidsResultLs$baseShares )
+
+all.equal( laaidsLMeat10$quant, laaidsLsMeat10$quant, check.attributes = FALSE )
+@
+As noted in Section~\ref{sec:laaids-problems},
+these two models are equivalent
+and hence, lead to the same simulation results.
+
+The LA-AIDS with Paasche or Tornqvist index
+has the same problem as the LA-AIDS with Stone index:
+current expenditure shares on the right-hand side of each demand equation.
+The expenditure shares can be calculated similarly
+to~(\ref{eq:calc-shares-stone}).
+\begin{align}
+\text{Paasche index: }
+w_t & = \left( I + \beta \ln \frac{p'_t}{p'_0} \right)^{-1}
+   \left( \alpha + \gamma \ln p_t + \beta \ln m_t \right)\\
+\text{Tornqvist Index: }
+w_t & = \left( I + \frac{1}{2} \beta \ln \frac{p'_t}{p'_0} \right)^{-1}
+   \left( \alpha + \gamma \ln p_t + \beta \ln m_t
+   - \frac{1}{2} \beta \frac{p'_t}{p'_0} w_0 \right)
+\end{align}
+As expected,
+\code{aidsEst} can do these calculations,
+if its argument \code{priceIndex} is set to \code{"P"} or \code{"T"},
+respectively,
+and if the required base prices and base expenditure shares
+are provided.
+<<>>=
+laaidsPMeat10 <- aidsCalc( priceNames, "xFood",
+   coef( laaidsResultP ), data = B86new, priceIndex = "P",
+   basePrices = laaidsResultP$basePrices )
+
+laaidsTMeat10 <- aidsCalc( priceNames, "xFood",
+   coef( laaidsResultT ), data = B86new, priceIndex = "T",
+   basePrices = laaidsResultT$basePrices,
+   baseShares = laaidsResultT$baseShares )
+@
+
+
+\subsection[The predict method]{The \code{predict} method}
+
+The commands for calculating predicted values can be simplified
+by using the \code{predict} method for objects of class \code{aidsEst}.
+It extracts all relevant elements from an object returned by \code{aidsEst}
+and passes them as arguments to \code{aidsCalc}.
+<<eval=FALSE>>=
+predict( object, newdata = NULL, observedShares = FALSE )
+@
+The optional argument \code{newdata} can be used to provide a data frame
+which contains the variables for the prediction.
+If it is omitted, the data frame used for the estimation
+is used also for prediction
+so that fitted values are returned.
+The optional argument \code{observedShares} determines
+whether fitted or observed expenditure shares are
+used in the calculation of the Stone, Paasche, and Tornqvist price index.
+It is \code{FALSE} by default,
+which means that fitted expenditure shares are used.
+Observed expenditure shares are used,
+if this argument is \code{TRUE}.
+
+Now we demonstrate the usage of
+the \code{predict} method for objects of class \code{aidsEst}
+by a few examples
+and show that it returns the same values
+as the calls to \code{aidsCalc} above.
+<<>>=
+aidsMeat10a <- predict( aidsResult, newdata = B86new )
+all.equal( aidsMeat10, aidsMeat10a )
+
+laaidsMeat10a <- predict( laaidsResult, newdata = B86new )
+all.equal( laaidsMeat10, laaidsMeat10a )
+@
+
+
+
+\section{Replication exercises}
+\label{sec:reliability}
+
+In this section, the \pkg{micEconAids} package is used
+to replicate two demand analyses
+that are published in the literature.
+This has several reasons.
+First, a comparison of \pkg{micEconAids}'s results
+with results published in the literature
+confirms the reliability of the \pkg{micEconAids} package.
+Second, this section helps researchers, demand analysts, teachers, and students
+to become familiar with using the \pkg{micEconAids} package.
+Third, the section encourages reproducible research,
+which should be a general goal in scientific analysis
+\citep{buckheit95,schwab00}.
+For instance, by preparing this section,
+some undocumented data transformations and the exact estimation methods
+in the analysis of \citet{blanciforti86} have been discovered.
+
+
+\subsection{Blanciforti, Green, and King (1986)}
+\nocite{blanciforti86}
+
+First, we reproduce a demand analysis of \citet{blanciforti86},
+which is also the source of our data set \code{Blanciforti86}.
+They apply the linear approximation of the AIDS
+and substitute the Stone price index
+with lagged shares~(\ref{eq:pi-stone-lagged})
+for the translog price index.
+Among other analyses, they examine the demand for the four food groups
+with a static LA-AIDS model.
+\citet{blanciforti86} do not use their data as published in
+their appendix,
+but scale prices and total expenditure
+to one in the year 1972.
+To make our result comparable to theirs,
+we do the same.
+<<keep.source=TRUE>>=
+priceNamesScaled <- paste( priceNames, "Scaled", sep = "" )
+for( i in 1:4 ){
+   Blanciforti86[[ priceNamesScaled[ i ] ]] <-
+      Blanciforti86[[ priceNames[i] ]] /
+      Blanciforti86[ "1972", priceNames[ i ] ]
+}
+Blanciforti86$xFoodScaled <- Blanciforti86$xFood /
+   Blanciforti86[ "1972", "xFood" ]
+@
+
+As \citet{blanciforti86} estimate their model by
+``Full Information Maximum Likelihood'' (FIML),
+which is not yet available in \pkg{systemfit}
+\citep{henningsen07a,r-systemfit-1.0},
+we apply the ``Iterated Seemingly Unrelated Regression'' (ITSUR)
+estimator,
+which generally converges to FIML results
+\citep[p.~347]{greene03}.
+This can be done by adding argument \code{maxiter} to \code{aidsEst},
+which will be passed to \code{systemfit}.
+If \code{maxiter} is larger than one,
+the SUR estimation will be iterated until the coefficients converge
+or the number of iterations is \code{maxiter}.
+
+First, we estimate the model with homogeneity and symmetry imposed.
+The results of \citet{blanciforti86} are presented
+part ``A'' of table~5.1 (p.~36).
+<<>>=
+estResultLA <- aidsEst( priceNamesScaled, shareNames, "xFoodScaled",
+   data = Blanciforti86, priceIndex = "SL", maxiter = 100 )
+estResultLA
+elas( estResultLA )$exp
+elas( estResultLA )$marshall
+@
+All coefficients and elasticities are close
+to the published values.
+The only exception in the Marshallian own price elasticity
+of the third food group (cereal and bakery products).
+However, this seems to be a typo in \citet{blanciforti86},
+because the same elasticities are presented in table~5.3 again
+and this table shows a value that is close to our result.
+The small differences between our and the published results
+are probably due to different estimation methods (FIML vs.\ ITSUR)
+and rounding errors in the data
+as only 3 digits of the budget shares and prices are
+presented in the appendix of \citet{blanciforti86}.
+
+Now, we estimate the model without homogeneity and symmetry imposed.
+Apparently, \citet{blanciforti86} use scaled prices,
+but non-scaled total food expenditure in this estimation.
+Their results are presented
+in the columns labelled with ``NH'' in table~5.2 (p.~39).
+<<>>=
+estResultLAnh <- aidsEst( priceNamesScaled, shareNames, "xFood",
+   data = Blanciforti86, priceIndex = "SL", hom = FALSE, sym = FALSE,
+   maxiter = 100 )
+estResultLAnh
+estResultLAnh$r2
+elas( estResultLAnh )$exp
+elas( estResultLAnh )$marshall
+@
+While most estimated coefficients, $R^2$ values,
+and expenditure elasticities are very close to the published values,
+some Marshallian elasticities considerably differ.
+The reason for these differences has not been discovered yet.
+
+As a further example,
+we estimate the model with homogeneity but without symmetry imposed.
+Again, \citet{blanciforti86} use scaled prices
+but non-scaled total food expenditure.
+Their results are presented
+in the columns labelled with ``NS'' in table~5.3 (p.~41).
+<<>>=
+estResultLAns <- aidsEst( priceNamesScaled, shareNames, "xFood",
+   data = Blanciforti86, priceIndex = "SL", sym = FALSE, maxiter = 100 )
+estResultLAns
+estResultLAns$r2
+elas( estResultLAns )$exp
+elas( estResultLAns )$marshall
+@
+Also these results are mostly very close to the values
+published in \citet{blanciforti86}.
+
+In addition to the LA-AIDS,
+\citet{blanciforti86} estimate an original non-linear AIDS.
+As the lagged shares in the Stone price index of the LA-AIDS
+require to drop the first observation in the LA-AIDS,
+this observation is also dropped in the estimation of the AIDS.
+We estimate this AIDS model by ``Iterative Linear Least Squares'' (ILLE).
+The results of \citet{blanciforti86} are presented
+in the column labelled with ``AIDS'' and ``p = 0'' in table~5.4 (p.~42).
+<<>>=
+estResultA <- aidsEst( priceNames, shareNames, "xFood",
+   data = Blanciforti86[ -1, ], method = "IL", maxiter = 100 )
+elas( estResultA )$exp
+diag( elas( estResultA )$marshall )
+@
+The estimated elasticities are rather close to the published values,
+but not as close as the values in the previous estimations.
+This is probably due to different non-linear optimization routines
+in \proglang{TSP} \citep[used by][]{blanciforti86} and \code{aidsEst}.
+
+
+\subsection{Green and Alston (1990)}
+\nocite{green90}
+
+\citet{green90} compare Marshallian own price elasticities
+of the AIDS with elasticities of the LA-AIDS model
+that are obtained by different formulas
+(see section~\ref{sec:laaids-elasticities}).
+While the elasticities of the AIDS model
+are taken from \citet[table~5.4, p.~42]{blanciforti86},
+the elasticities of the LA-AIDS are calculated
+from the coefficients of an own LA-AIDS estimation.
+<<>>=
+diag( elas( estResultA, method = "AIDS" )$marshall )
+
+estResultLA <- aidsEst( priceNames, shareNames, "xFood",
+   data = Blanciforti86, priceIndex = "S", maxiter = 100 )
+
+diag( elas( estResultLA, method = "AIDS" )$marshall )
+
+diag( elas( estResultLA, method = "EU" )$marshall )
+
+diag( elas( estResultLA, method = "Ch" )$marshall )
+
+diag( elas( estResultLA, method = "GA" )$marshall )
+@
+Most estimated elasticities are extremely close to the published values.
+Only some elasticities from the non-linear AIDS model
+slightly deviate.
+As said before,
+these deviations probably come from different non-linear optimization routines
+in \proglang{TSP} \citep[used by][]{blanciforti86} and \code{aidsEst}.
+
+
+
+\section{Summary and Conclusions}
+\label{sec:conclusion}
+
+The \proglang{R} package \pkg{micEconAids} provides
+a convenient interface for demand analyses with
+the Almost Ideal Demand System (AIDS)
+and its linear approximation (LA-AIDS).
+The functions \code{aidsEst} and \code{aidsEla}
+can estimate coefficients and demand elasticities of the LA-AIDS
+using various different approaches
+that solve the severe problems
+originating from the linear approximation of the non-linear AIDS.
+However, some of the problems of the LA-AIDS seem to be generally intractable.
+Therefore, the question arises
+whether the linear approximation should be applied at all.
+Since the estimation of the non-linear AIDS often leads to problems
+in empirical applications,
+\code{aidsEst} applies the ``Iterative Linear Least-Squares Estimator''
+\citep{blundell99} for the econometric estimation of the non-linear AIDS.
+A special feature of \code{aidsEla}
+is the calculation of the variance-covariance matrix
+and the standard errors of the estimated demand elasticities.
+These allow the calculation of confidence intervals for the elasticities
+and the application of statistical tests.
+The reliability of \code{aidsEst} and \code{aidsEla}
+is demonstrated by replicating two demand analyses
+that are published in the literature.
+
+Since the publication of the AIDS,
+several generalizations and extensions of this model
+have been proposed,
+e.g., the ``Generalized AIDS'' \citep[GAIDS,][]{bollino87},
+the ``Quadratic AIDS'' \citep[QAIDS,][]{banks97},
+and a version that accounts for censoring of the dependent variables
+\citep{shonkwiler99}.
+We plan to implement these enhancements in future versions
+of the \pkg{micEconAids} package
+--- possibly with the help of users
+that would like to apply these extended models.
+
+
+\section*{Acknowledgments}
+The author thanks an anonymous referee
+and several users of the \pkg{micEconAids} package
+for their comments and suggestions.
+Of course, any remaining errors are the author's.
+
+
+% \bibliography{agrarpol}
+\bibliography{references}
+
+%%%%%%%%%%% Appendix %%%%%%%%%%%%%
+\clearpage
+\begin{appendix}
+
+
+\section{Explanation of economic terms}
+\label{sec:economicTerms}
+
+This section explains some economic terms
+that have been used in this paper.
+They are sorted in order of appearance.
+
+\begin{description}
+\addtolength{\itemsep}{-0.7\baselineskip}
+% \setlength{\itemsep}{-0.25cm}
+\item[The expenditure function]
+indicates the minimum amount of money
+that a consumer needs to purchase goods
+from which (s)he can derive a given level of utility
+while all prices are given.
+
+\item[Marshallian (uncompensated) demand functions]
+indicate the ``optimal'' quantities demanded,
+given prices and total expenditure,
+i.e.\ they indicate the quantities
+that the consumer can afford
+and that derive the highest level of utility.
+
+\item[Shephard's Lemma]
+says that the Hicksian (compensated) demand functions
+can be derived by taking the partial derivatives
+of the expenditure function with respect to the consumer prices.
+
+\item[The indirect utility function]
+indicates the maximal level of utility
+that a consumer can derive from purchased goods 
+given an amount of money and given all prices.
+
+\item[Expenditure (income) elasticities]
+measure the relationship
+between a change in the demanded quantity
+and a change in total expenditure (income).
+If total expenditure (income) increases by 1\%,
+the expenditure (income) elasticity indicates
+by how many percent the demanded quantity of a specific good changes.
+In traditional simple microeconomic demand models,
+it is assumed
+that the income is entirely spent for consumption.
+Hence, income and total expenditure are equivalent.
+
+\item[Marshallian (uncompensated) price elasticities]
+measure the relationship
+between a change in the demanded quantity
+and a change in a consumer price
+holding total expenditure constant.
+If a consumer price increases by 1\%,
+the price elasticity indicates
+by how many percent the demanded quantity of a specific good changes.
+
+\item[Hicksian (compensated) price elasticities]
+measure the relationship
+between a change in the demanded quantity
+and a change in a consumer price
+holding the utility level constant.
+If a consumer price increases by 1\%,
+the price elasticity indicates
+by how many percent the demanded quantity of a specific good changes.
+
+\item[Hicksian (compensated) demand functions]
+indicate the ``optimal'' quantities demanded,
+given prices and the utility level,
+i.e.\ they indicate the cheapest bundle of quantities
+that has to be consumed to derive at least the given utility level.
+
+\end{description}
+
+
+\end{appendix}
+
+\end{document}
+
+% TODO
+% Additional subsections in section "Estimating the AIDS"
+% - Demand shifter  (argument shifterNames)
+% - Selecting alpha_0 (function aidsestA0)
+% Additional subsections in section "Replication exercises"
+% - SAS example (estimation + elasticities)
+% Appendix
+% - Proof of elasticity formulas for the LA-AIDS with alternative price indices
