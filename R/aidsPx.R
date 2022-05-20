@@ -8,7 +8,7 @@ aidsPx <- function( priceIndex, priceNames, data, shareNames = NULL, base = 1,
       } else {
          coefCheckResult <- .aidsCheckCoef( coef, variables = list(
             list( length( priceNames ), "priceNames", "goods" ),
-            list( ifelse( is.null( shareNames ), NA, length( shareNames ) ), 
+            list( ifelse( is.null( shareNames ), NA, length( shareNames ) ),
                "shareNames", "goods" ) ) )
          if( !is.null( coefCheckResult ) ){
             stop( coefCheckResult )
@@ -19,7 +19,7 @@ aidsPx <- function( priceIndex, priceNames, data, shareNames = NULL, base = 1,
       }
    } else {
       if( is.null( shareNames ) &&
-            !( priceIndex %in% c( "L", "Ls" ) && class( base ) == "list" ) ) {
+            !( priceIndex %in% c( "L", "Ls" ) && inherits( base, "list" ) ) ) {
          stop( "argument 'shareNames' must must be specified to calculate",
             " price index '", priceIndex, "'" )
       }
@@ -31,7 +31,7 @@ aidsPx <- function( priceIndex, priceNames, data, shareNames = NULL, base = 1,
    lnp <- numeric( nObs )
 
    if( priceIndex %in% c( "L", "P", "T" ) ){
-      if( class( base ) == "list" ){
+      if( inherits( base, "list" ) ){
          if( is.null( base$prices ) ){
             stop( "if argument 'priceIndex' is '", priceIndex, "'",
                " and argument 'base' is a list,",
@@ -50,7 +50,7 @@ aidsPx <- function( priceIndex, priceNames, data, shareNames = NULL, base = 1,
       }
    }
    if( priceIndex %in% c( "L", "Ls", "T" ) ){
-      if( class( base ) == "list" ){
+      if( inherits( base, "list" ) ){
          if( is.null( base$shares ) ){
             stop( "if argument 'priceIndex' is '", priceIndex, "'",
                " and argument 'base' is a list,",

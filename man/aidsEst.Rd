@@ -101,6 +101,7 @@ aidsEst( priceNames, shareNames, totExpName, data,
    \item{pMeans}{means of the prices.}
    \item{wMeans}{means of the expenditure shares.}
    \item{xtMean}{mean of total expenditure.}
+   \item{sMeans}{means of shifter variables (only if shifter variables are used).}
    \item{call}{the call of \code{aidsEst}.}
    \item{priceNames}{names of the prices.}
    \item{shareNames}{names of the expenditure shares.}

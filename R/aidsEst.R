@@ -58,6 +58,12 @@ aidsEst <- function( priceNames, shareNames, totExpName,
       wMeans[ i ] <- mean( data[[ shareNames[ i ] ]][ sample ] )
       pMeans[ i ] <- mean( data[[ priceNames[ i ] ]][ sample ] )
    }
+   if( nShifter > 0 ) {
+      sMeans <- numeric( nShifter )
+      for( i in seq( nShifter ) ) {
+         sMeans[ i ] <- mean( data[[ shifterNames[ i ] ]][ sample ] )
+      }
+   }
    # log of price index
    lnp  <- aidsPx( priceIndex, priceNames, shareNames = shareNames, data = data,
       base = pxBase )
@@ -224,6 +230,9 @@ aidsEst <- function( priceNames, shareNames, totExpName,
    result$wMeans <- wMeans
    result$pMeans <- pMeans
    result$xtMean <- xtMean
+   if( nShifter > 0 ) {
+      result$sMeans <- sMeans
+   }
    result$shareNames <- shareNames
    result$priceNames <- priceNames
    result$totExpName <- totExpName

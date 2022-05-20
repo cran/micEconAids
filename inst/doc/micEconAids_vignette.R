@@ -1,5 +1,4 @@
 ### R code from vignette source 'micEconAids_vignette.Rnw'
-### Encoding: UTF-8
 
 ###################################################
 ### code chunk number 1: micEconAids_vignette.Rnw:366-367 (eval = FALSE)

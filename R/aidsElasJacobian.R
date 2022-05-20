@@ -1,8 +1,9 @@
 .aidsElasJacobian <- function( coef, shares, prices = NULL, method = "AIDS",
-      quantNames = NULL, priceNames = NULL ) {
+      quantNames = NULL, priceNames = NULL, shifterValues = NULL ) {
 
    nGoods <- length( coef$alpha )
-   nCoef  <- ( nGoods + 2 ) * nGoods
+   nShifter <- length( shifterValues )
+   nCoef  <- ( nGoods + 2 ) * nGoods + nGoods * nShifter
 
    if( length( coef$alpha ) != length( coef$beta ) ) {
       stop( "arguments 'alpha' and 'beta' must have the same length" )
@@ -15,6 +16,15 @@
       stop( "arguments 'alpha' and 'shares' must have the same length" )
    } else if(  length( coef$alpha ) != length( prices ) && !is.null( prices ) ) {
       stop( "arguments 'alpha' and 'prices' must have the same length" )
+   }
+   if( nShifter > 0 ) {
+     if( !is.matrix( coef$delta ) ) {
+       stop( "component 'delta' of argument 'coef' must be a matrix" )
+     }
+     if( ncol( coef$delta ) != length( shifterValues ) ) {
+       stop( "the number of columns of component 'delta' of argument 'coef'",
+         " must be equal to the length of argument 'shifterValues'" )
+     }
    }
    if( is.null( quantNames ) ) {
       quantNames <- .aidsQuantNames( shares, coef, nGoods )
@@ -45,7 +55,7 @@
          rownames( result ) <- paste( symbol, rep( quantNames, each = nGoods ),
             rep( priceNames, nGoods ) )
       }
-      colnames( result ) <- .aidsCoefNamesAll( nGoods, 0 )
+      colnames( result ) <- .aidsCoefNamesAll( nGoods, nShifter )
       return( result )
    }
 
@@ -61,6 +71,10 @@
    bName <- paste( "beta", c( 1:nGoods ) )
    gName <- array( paste( "gamma", rep( 1:nGoods, nGoods ),
       rep( 1:nGoods, each = nGoods ) ), dim = c( nGoods, nGoods ) )
+   if( nShifter > 0 ) {
+     dName <- array( paste( "delta", rep( 1:nGoods, nShifter ),
+       rep( 1:nShifter, each = nGoods ) ), dim = c( nGoods, nShifter ) )
+   }
    ehName <- array( paste( "Eh", rep( quantNames, nGoods ),
       rep( priceNames, each = nGoods ) ), dim = c( nGoods, nGoods ) )
    emName <- array( paste( "Em", rep( quantNames, nGoods ),
@@ -76,6 +90,12 @@
             # Hicksian price elasticities
             jacobian$hicks[ ehName[ i, j ], aName[ j ] ] <-
                -coef$beta[ i ] / shares[ i ]
+            if( nShifter > 0 ) {
+              for( k in 1:nShifter ) {
+                jacobian$hicks[ ehName[ i, j ], dName[ j, k ] ] <-
+                  - ( coef$beta[ i ] / shares[ i ] ) * shifterValues[ k ]
+              }
+            }
             jacobian$hicks[ ehName[ i, j ], bName[ i ] ] <-
                - ( coef$alpha[ j ] - shares[ j ] +
                coef$gamma[ j , ] %*% log( prices ) ) / shares[ i ]
@@ -87,6 +107,12 @@
             # Marshallian price elasticities
             jacobian$marshall[ emName[ i, j ], aName[ j ] ] <-
                -coef$beta[ i ] / shares[ i ]
+            if( nShifter > 0 ) {
+              for( k in 1:nShifter ) {
+                jacobian$marshall[ emName[ i, j ], dName[ j, k ] ] <-
+                  - ( coef$beta[ i ] / shares[ i ] ) * shifterValues[ k ]
+              }
+            }
             jacobian$marshall[ emName[ i, j ], bName[ i ] ] <-
                - ( coef$alpha[ j ] +
                coef$gamma[ j , ] %*% log( prices ) ) / shares[ i ]

@@ -10,8 +10,8 @@ lrtest.aidsEst <- function( object, ... ) {
       stop( "at least two arguments (objects of class 'aidsEst')",
          " are required" )
    }
-   if( class( object ) != "aidsEst" ||
-         !all( lapply( dotsList, class ) == "aidsEst" ) ){
+   if( !inherits( object, "aidsEst" ) ||
+       !all( sapply( dotsList, inherits, what = "aidsEst" ) ) ){
       stop( "all arguments must be of class 'aidsEst'" )
    }
 
@@ -34,9 +34,9 @@ lrtest.aidsEst <- function( object, ... ) {
       } else {
          result <- paste( result, ", unrestricted", sep = "" )
       }
-      if( !is.null( aidsEstObject$call$shifterNames ) ) {
+      if( !is.null( aidsEstObject$sMeans ) ) {
          result <- paste( result, ", ",
-            length( aidsEstObject$call$shifterNames ) - 1,
+            length( aidsEstObject$sMeans ),
             " demand shifter(s)", sep = "" )
       }
       result <- paste( objectName, " (", result, ")", sep = "" )

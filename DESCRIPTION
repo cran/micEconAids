@@ -1,6 +1,6 @@
 Package: micEconAids
-Version: 0.6-18
-Date: 2017-03-16
+Version: 0.6-20
+Date: 2022-05-20
 Title: Demand Analysis with the Almost Ideal Demand System (AIDS)
 Author: Arne Henningsen
 Maintainer: Arne Henningsen <arne.henningsen@gmail.com>
@@ -13,6 +13,6 @@ Description: Functions and tools
 License: GPL (>= 2)
 URL: http://www.micEcon.org
 NeedsCompilation: no
-Packaged: 2017-03-16 12:31:43 UTC; arne
+Packaged: 2022-05-20 11:14:57 UTC; gsl324
 Repository: CRAN
-Date/Publication: 2017-03-16 13:49:05 UTC
+Date/Publication: 2022-05-20 12:10:02 UTC

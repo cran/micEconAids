@@ -5,6 +5,12 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
+            CHANGES IN VERSION 0.6-20 (2022-05-20)
+
+* demand elasticities can now also be calculated if the model was estimated
+with shifter variables
+
+
             CHANGES IN VERSION 0.6-18 (2017-03-16)
 
 * added a 'vignette'
@@ -23,8 +29,8 @@ imports these packages
 
             CHANGES IN VERSION 0.6-12 (2012-12-26)
 
-* corrected dependencies: replaced "R (>= 2.4.0)" and "stats (>= 2.15.0)" 
-(where the latter implies "R (>= 2.15.0)") by "R (>= 2.14.0)" and "stats" 
+* corrected dependencies: replaced "R (>= 2.4.0)" and "stats (>= 2.15.0)"
+(where the latter implies "R (>= 2.15.0)") by "R (>= 2.14.0)" and "stats"
 (without version number), because R/stats 2.14.0 is sufficient
 
 

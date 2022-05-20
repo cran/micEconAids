@@ -11,7 +11,7 @@
 
 \usage{
 aidsCalc( priceNames, totExpName, coef, data, priceIndex = "TL",
-   basePrices = NULL, baseShares = NULL )
+   basePrices = NULL, baseShares = NULL, shifterNames = NULL )
 
 \method{predict}{aidsEst}( object, newdata = NULL,
    observedShares = FALSE, \dots )
@@ -31,6 +31,8 @@ aidsCalc( priceNames, totExpName, coef, data, priceIndex = "TL",
       Paasche, Laspeyres, and Tornqvist price index.}
    \item{baseShares}{a vector specifying the base expenditure shares for the
       Laspeyres, simplified Laspeyres, and Tornqvist index.}
+   \item{shifterNames}{a vector of strings containing the names 
+      of the demand shifters.}
    \item{object}{an object of class \code{aidsEst}.}
    \item{newdata}{an optional data frame which should contain the variables
       for the prediction.

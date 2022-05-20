@@ -41,6 +41,7 @@ elas.aidsEst <- function( object, method = NULL, observedShares = FALSE, ... ) {
       basePrices = object$basePrices,
       baseShares = object$baseShares,
       priceNames = object$priceNames,
+      shifterValues = object$sMeans,
       coefCov = vcov( object ), df = df.residual( object ), ... )
 
    return( result )

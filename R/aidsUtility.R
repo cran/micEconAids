@@ -14,7 +14,7 @@ aidsUtility <- function( priceNames, totExpName, coef, data ) {
    }
 
    # checking argument 'data'
-   if( class( data ) != "data.frame" ) {
+   if( !is.data.frame( data ) ) {
       stop( "argument 'data' must be a data frame" )
    }
 

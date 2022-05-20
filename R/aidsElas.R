@@ -1,10 +1,29 @@
 aidsElas <- function( coef, prices = NULL, shares = NULL, totExp = NULL,
    method = "AIDS", priceIndex = "TL", basePrices = NULL, baseShares = NULL,
-   quantNames = NULL, priceNames = NULL, coefCov = NULL, df = NULL ) {
+   quantNames = NULL, priceNames = NULL, shifterValues = NULL,
+   coefCov = NULL, df = NULL ) {
 
    if( !is.null( coef$delta ) ) {
-      stop( "calculating demand elasticities for models with demand shifters",
-         " has not been implemented yet" )
+      if( is.null( shifterValues ) ) {
+         stop( "as the model was estimated with demand shifters",
+            " argument 'shifterValues' must be specified" )
+      }
+      if( length( shifterValues ) != ncol( coef$delta ) ) {
+         stop( "the number of demand shifters specified by argument",
+            " 'shifterValues' must be equal to the number of demand shifters",
+            " used in the estimation (", ncol( coef$delta ), ")" )
+      }
+      if( length( coef$alpha ) != nrow( coef$delta ) ) {
+         stop( "length of 'coef$alpha' must be the same as number of rows",
+            " of 'coef$delta'" )
+      }
+      for( i in 1:length( coef$alpha ) ) {
+         coef$alpha[i] <- coef$alpha[i] +
+            crossprod( coef$delta[i,], shifterValues )
+      }
+      nShifter <- ncol( coef$delta )
+   } else {
+      nShifter <- 0
    }
 
    nGoods <- length( coef$alpha )
@@ -12,9 +31,9 @@ aidsElas <- function( coef, prices = NULL, shares = NULL, totExp = NULL,
    coefCheckResult <- .aidsCheckCoef( coef, variables = list(
       list( ifelse( is.null( prices ), NA, length( prices ) ), "prices", "goods" ),
       list( ifelse( is.null( shares ), NA, length( shares ) ), "shares", "goods" ),
-      list( ifelse( is.null( quantNames ), NA, length( quantNames ) ), 
+      list( ifelse( is.null( quantNames ), NA, length( quantNames ) ),
          "quantNames", "goods" ),
-      list( ifelse( is.null( priceNames ), NA, length( priceNames ) ), 
+      list( ifelse( is.null( priceNames ), NA, length( priceNames ) ),
          "priceNames", "goods" ) ) )
    if( !is.null( coefCheckResult ) ){
       stop( coefCheckResult )
@@ -45,11 +64,19 @@ aidsElas <- function( coef, prices = NULL, shares = NULL, totExp = NULL,
       } else {
          tempPriceIndex <- priceIndex
       }
+      if( nShifter > 0 ) {
+         tempShifterNames <- paste ( "s", c( 1:nShifter ), sep = "" )
+         for( i in 1:nShifter ) {
+            tempData[[ tempShifterNames[ i ] ]] <- shifterValues[ i ]
+         }
+      } else {
+         tempShifterNames <- NULL
+      }
       shares <- as.numeric( aidsCalc( priceNames = tempPriceNames,
          totExpName = "totExp", coef = coef, data = tempData,
          priceIndex = tempPriceIndex, basePrices = basePrices,
-         baseShares = baseShares )$shares )
-      rm( tempData, tempPriceNames, tempPriceIndex )
+         baseShares = baseShares, shifterNames = tempShifterNames )$shares )
+      rm( tempData, tempPriceNames, tempPriceIndex, tempShifterNames )
    }
 
    if( is.null( quantNames ) ) {
@@ -291,7 +318,8 @@ aidsElas <- function( coef, prices = NULL, shares = NULL, totExp = NULL,
    colnames( ela$marshall ) <- priceNames
    if( !is.null( coefCov ) && method %in% c( "AIDS" ) ) {
       jacobian <- .aidsElasJacobian( coef = coef, shares = shares, prices = prices,
-         method = method, quantNames = quantNames, priceNames = priceNames )
+         method = method, quantNames = quantNames, priceNames = priceNames,
+         shifterValues = shifterValues )
       ela$allVcov      <- jacobian$all      %*% coefCov %*% t( jacobian$all )
       ela$expVcov      <- jacobian$exp      %*% coefCov %*% t( jacobian$exp )
       ela$hicksVcov    <- jacobian$hicks    %*% coefCov %*% t( jacobian$hicks )
